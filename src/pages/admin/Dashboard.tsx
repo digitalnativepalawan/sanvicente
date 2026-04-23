@@ -76,6 +76,48 @@ const AdminDashboard = () => {
         }
       />
 
+      {/* Cloud migration card */}
+      <section className="mb-6 rounded-3xl border border-border bg-card p-6 shadow-soft">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <span className={`grid h-11 w-11 place-items-center rounded-2xl ${cloudOn ? "bg-accent-soft text-accent" : "bg-secondary text-primary"}`}>
+              {cloudOn ? <CheckCircle2 className="h-5 w-5" /> : <Cloud className="h-5 w-5" />}
+            </span>
+            <div>
+              <h2 className="font-display text-lg font-bold">
+                {cloudOn ? "Cloud database active" : "Migrate to Cloud"}
+              </h2>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                {cloudOn
+                  ? "Reads & writes are synced to the cloud database. Local copy kept as backup."
+                  : `${businesses.length} businesses ready to migrate. Click once to upload everything to the cloud.`}
+              </p>
+              {migrating && progress && (
+                <p className="mt-2 text-xs font-medium text-primary">
+                  Uploading… {progress.done} / {progress.total}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {cloudOn ? (
+              <Button variant="outline" className="h-11 rounded-full" onClick={toggleCloud}>
+                <CloudOff className="mr-1.5 h-4 w-4" /> Switch to local backup
+              </Button>
+            ) : (
+              <Button
+                onClick={handleMigrate}
+                disabled={migrating || businesses.length === 0}
+                className="h-11 rounded-full gradient-ocean text-primary-foreground"
+              >
+                {migrating ? <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> : <Cloud className="mr-1.5 h-4 w-4" />}
+                {migrating ? "Migrating…" : `Migrate ${businesses.length} to Cloud`}
+              </Button>
+            )}
+          </div>
+        </div>
+      </section>
+
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <StatCard icon={Building2} label="Total" value={businesses.length} />
         <StatCard icon={Sparkles} label="Featured" value={featured} accent />
