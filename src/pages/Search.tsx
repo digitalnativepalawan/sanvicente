@@ -6,7 +6,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { BusinessCard } from "@/components/BusinessCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BUSINESSES } from "@/data/businesses";
+import { useBusinesses } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 import type { Category } from "@/types/business";
 
@@ -19,9 +19,11 @@ const SearchPage = () => {
     document.title = q ? `“${q}” – San Vicente Directory` : "Search – San Vicente Directory";
   }, [q]);
 
+  const all = useBusinesses();
   const results = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    return BUSINESSES.filter((b) => {
+    return all.filter((b) => {
+      if (!b.isActive) return false;
       if (activeCat !== "all" && b.category !== activeCat) return false;
       if (!needle) return true;
       return (
@@ -34,7 +36,7 @@ const SearchPage = () => {
         b.amenities.some((a) => a.toLowerCase().includes(needle))
       );
     });
-  }, [q, activeCat]);
+  }, [q, activeCat, all]);
 
   const clearQuery = () => setParams({});
 

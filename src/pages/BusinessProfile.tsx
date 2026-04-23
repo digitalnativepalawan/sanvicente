@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { BusinessCard } from "@/components/BusinessCard";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useToast } from "@/hooks/use-toast";
-import { BUSINESSES, getBusinessBySlug } from "@/data/businesses";
+import { useBusinesses, useBusinessBySlug, analytics } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 
 const dayLabels: Record<string, string> = {
@@ -38,9 +38,15 @@ const dayLabels: Record<string, string> = {
 
 const BusinessProfile = () => {
   const { slug = "" } = useParams();
-  const business = getBusinessBySlug(slug);
+  const business = useBusinessBySlug(slug);
+  const allBusinesses = useBusinesses();
   const { has, toggle } = useFavorites();
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (business) analytics.trackView(business.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [business?.id]);
 
   useEffect(() => {
     if (business) {
@@ -81,7 +87,7 @@ const BusinessProfile = () => {
 
   const cat = CATEGORIES.find((c) => c.slug === business.category);
   const fav = has(business.id);
-  const related = BUSINESSES.filter((b) => b.category === business.category && b.id !== business.id).slice(0, 3);
+  const related = allBusinesses.filter((b) => b.category === business.category && b.id !== business.id && b.isActive).slice(0, 3);
   const mapsLink = business.googleMapsLink || `https://maps.google.com/?q=${encodeURIComponent(`${business.name} San Vicente Palawan`)}`;
 
   const handleShare = async () => {
@@ -148,15 +154,21 @@ const BusinessProfile = () => {
           <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
             {business.phone && (
               <Button asChild className="h-12 rounded-2xl gradient-ocean text-primary-foreground hover:opacity-95">
-                <a href={`tel:${business.phone}`}><Phone className="mr-2 h-4 w-4" />Call</a>
+                <a href={`tel:${business.phone}`} onClick={() => analytics.trackClick(business.id)}>
+                  <Phone className="mr-2 h-4 w-4" />Call
+                </a>
               </Button>
             )}
             <Button asChild variant="outline" className="h-12 rounded-2xl">
-              <a href={mapsLink} target="_blank" rel="noopener noreferrer"><Navigation className="mr-2 h-4 w-4" />Directions</a>
+              <a href={mapsLink} target="_blank" rel="noopener noreferrer" onClick={() => analytics.trackClick(business.id)}>
+                <Navigation className="mr-2 h-4 w-4" />Directions
+              </a>
             </Button>
             {business.website && (
               <Button asChild variant="outline" className="h-12 rounded-2xl">
-                <a href={business.website} target="_blank" rel="noopener noreferrer"><Globe className="mr-2 h-4 w-4" />Website</a>
+                <a href={business.website} target="_blank" rel="noopener noreferrer" onClick={() => analytics.trackClick(business.id)}>
+                  <Globe className="mr-2 h-4 w-4" />Website
+                </a>
               </Button>
             )}
             <Button onClick={() => toggle(business.id)} variant="outline" className="h-12 rounded-2xl">

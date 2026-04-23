@@ -6,7 +6,7 @@ import { BusinessCard } from "@/components/BusinessCard";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORIES, getCategory } from "@/data/categories";
-import { getBusinessesByCategory } from "@/data/businesses";
+import { useBusinesses } from "@/data/businessStore";
 
 type SortKey = "featured" | "rating" | "name" | "newest";
 
@@ -22,9 +22,11 @@ const Category = () => {
     }
   }, [cat]);
 
+  const allBusinesses = useBusinesses();
+
   const businesses = useMemo(() => {
     if (!cat) return [];
-    let list = getBusinessesByCategory(slug);
+    let list = allBusinesses.filter((b) => b.category === slug && b.isActive);
     if (priceFilter !== "all") list = list.filter((b) => b.priceRange === priceFilter);
     list = [...list].sort((a, b) => {
       if (sort === "rating") return b.rating - a.rating;
@@ -33,7 +35,7 @@ const Category = () => {
       return Number(b.isFeatured) - Number(a.isFeatured);
     });
     return list;
-  }, [cat, slug, sort, priceFilter]);
+  }, [cat, slug, sort, priceFilter, allBusinesses]);
 
   if (!cat) {
     return (
