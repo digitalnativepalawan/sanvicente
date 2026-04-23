@@ -45,19 +45,17 @@ const ImportKmz = () => {
       toast({ title: "No placemarks found", description: "The file did not contain any map pins.", variant: "destructive" });
       return;
     }
-    // De-dupe against existing businesses by name
-    const existing = new Set(businessStore.list().map((b) => b.name.trim().toLowerCase()));
+    // Duplicate detection disabled — select everything by default
     const next: Row[] = placemarks.map((p) => ({
       ...p,
-      selected: !existing.has(p.name.trim().toLowerCase()),
+      selected: true,
       overrideCategory: p.category,
       overrideBarangay: folderToBarangay(p.folder),
     }));
     setRows(next);
-    const dupes = placemarks.length - next.filter((r) => r.selected).length;
     toast({
       title: `Parsed ${placemarks.length} placemarks`,
-      description: dupes ? `${dupes} look like duplicates and were unchecked.` : "Review and import below.",
+      description: "All placemarks are selected — review and import below.",
     });
   };
 
