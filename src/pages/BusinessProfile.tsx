@@ -154,15 +154,21 @@ const BusinessProfile = () => {
           <div className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-4">
             {business.phone && (
               <Button asChild className="h-12 rounded-2xl gradient-ocean text-primary-foreground hover:opacity-95">
-                <a href={`tel:${business.phone}`}><Phone className="mr-2 h-4 w-4" />Call</a>
+                <a href={`tel:${business.phone}`} onClick={() => analytics.trackClick(business.id)}>
+                  <Phone className="mr-2 h-4 w-4" />Call
+                </a>
               </Button>
             )}
             <Button asChild variant="outline" className="h-12 rounded-2xl">
-              <a href={mapsLink} target="_blank" rel="noopener noreferrer"><Navigation className="mr-2 h-4 w-4" />Directions</a>
+              <a href={mapsLink} target="_blank" rel="noopener noreferrer" onClick={() => analytics.trackClick(business.id)}>
+                <Navigation className="mr-2 h-4 w-4" />Directions
+              </a>
             </Button>
             {business.website && (
               <Button asChild variant="outline" className="h-12 rounded-2xl">
-                <a href={business.website} target="_blank" rel="noopener noreferrer"><Globe className="mr-2 h-4 w-4" />Website</a>
+                <a href={business.website} target="_blank" rel="noopener noreferrer" onClick={() => analytics.trackClick(business.id)}>
+                  <Globe className="mr-2 h-4 w-4" />Website
+                </a>
               </Button>
             )}
             <Button onClick={() => toggle(business.id)} variant="outline" className="h-12 rounded-2xl">
