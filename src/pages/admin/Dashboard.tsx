@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
-import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles, Cloud, CloudCheck, Loader2 } from "lucide-react";
 import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
-import { useBusinesses, analytics } from "@/data/businessStore";
+import { useBusinesses, analytics, businessStore, isCloudEnabled, setCloudEnabled } from "@/data/businessStore";
+import { toast } from "sonner";
 
 const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Eye; label: string; value: string | number; accent?: boolean }) => (
   <div className="rounded-3xl border border-border bg-card p-5 shadow-soft">
