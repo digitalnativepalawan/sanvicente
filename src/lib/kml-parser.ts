@@ -121,14 +121,41 @@ export const parseKmlString = (kml: string): ParsedPlacemark[] => {
   return out;
 };
 
+// Read a File as ArrayBuffer with a FileReader fallback (works in sandboxed iframes
+// where Blob.arrayBuffer()/text() can be intercepted and fail with "Failed to fetch").
+const readFileBuffer = (file: File): Promise<ArrayBuffer> =>
+  new Promise((resolve, reject) => {
+    try {
+      const fr = new FileReader();
+      fr.onload = () => resolve(fr.result as ArrayBuffer);
+      fr.onerror = () => reject(fr.error ?? new Error("FileReader failed"));
+      fr.readAsArrayBuffer(file);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+const readFileText = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    try {
+      const fr = new FileReader();
+      fr.onload = () => resolve(String(fr.result ?? ""));
+      fr.onerror = () => reject(fr.error ?? new Error("FileReader failed"));
+      fr.readAsText(file);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
 export const parseKmzFile = async (file: File): Promise<ParsedPlacemark[]> => {
   const ext = file.name.toLowerCase().split(".").pop();
   if (ext === "kml") {
-    const text = await file.text();
+    const text = await readFileText(file);
     return parseKmlString(text);
   }
   // KMZ: zip containing doc.kml
-  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const buf = await readFileBuffer(file);
+  const zip = await JSZip.loadAsync(buf);
   const kmlEntry =
     zip.file("doc.kml") ||
     Object.values(zip.files).find((f) => f.name.toLowerCase().endsWith(".kml"));
