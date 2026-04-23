@@ -48,6 +48,8 @@ export interface Business {
   reviewCount: number;
   viewCount: number;
   listingTier: ListingTier;
+  latitude?: number;
+  longitude?: number;
   createdAt: string;
 }
 

@@ -88,6 +88,8 @@ const rowToBusiness = (r: any): Business => ({
   reviewCount: r.review_count ?? 0,
   viewCount: r.view_count ?? 0,
   listingTier: (r.listing_tier ?? "free") as Business["listingTier"],
+  latitude: r.latitude == null ? undefined : Number(r.latitude),
+  longitude: r.longitude == null ? undefined : Number(r.longitude),
   createdAt: (r.created_at ?? new Date().toISOString()).slice(0, 10),
 });
 
@@ -120,6 +122,8 @@ const businessToRow = (b: Business) => ({
   review_count: b.reviewCount ?? 0,
   view_count: b.viewCount ?? 0,
   listing_tier: b.listingTier ?? "free",
+  latitude: b.latitude ?? null,
+  longitude: b.longitude ?? null,
 });
 
 // ---------- Cloud hydration ----------
