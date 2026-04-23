@@ -38,9 +38,15 @@ const dayLabels: Record<string, string> = {
 
 const BusinessProfile = () => {
   const { slug = "" } = useParams();
-  const business = getBusinessBySlug(slug);
+  const business = useBusinessBySlug(slug);
+  const allBusinesses = useBusinesses();
   const { has, toggle } = useFavorites();
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (business) analytics.trackView(business.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [business?.id]);
 
   useEffect(() => {
     if (business) {
@@ -81,7 +87,7 @@ const BusinessProfile = () => {
 
   const cat = CATEGORIES.find((c) => c.slug === business.category);
   const fav = has(business.id);
-  const related = BUSINESSES.filter((b) => b.category === business.category && b.id !== business.id).slice(0, 3);
+  const related = allBusinesses.filter((b) => b.category === business.category && b.id !== business.id && b.isActive).slice(0, 3);
   const mapsLink = business.googleMapsLink || `https://maps.google.com/?q=${encodeURIComponent(`${business.name} San Vicente Palawan`)}`;
 
   const handleShare = async () => {
