@@ -20,12 +20,27 @@ export const setCloudEnabled = (on: boolean) => {
   try { localStorage.setItem(CLOUD_FLAG_KEY, on ? "1" : "0"); } catch { /* ignore */ }
 };
 
+const SEED_IDS = new Set(Array.from({ length: 15 }, (_, i) => String(i + 1)));
+const SEED_CLEAN_FLAG = "sv-seed-cleaned-v1";
+
+const stripSeed = (list: Business[]): Business[] =>
+  list.filter((b) => !SEED_IDS.has(b.id));
+
 const load = (): Business[] => {
   if (memoryStore) return memoryStore;
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
-      memoryStore = JSON.parse(raw) as Business[];
+      let parsed = JSON.parse(raw) as Business[];
+      if (localStorage.getItem(SEED_CLEAN_FLAG) !== "1") {
+        const before = parsed.length;
+        parsed = stripSeed(parsed);
+        if (parsed.length !== before) {
+          localStorage.setItem(KEY, JSON.stringify(parsed));
+        }
+        localStorage.setItem(SEED_CLEAN_FLAG, "1");
+      }
+      memoryStore = parsed;
       return memoryStore;
     }
   } catch { /* ignore */ }
