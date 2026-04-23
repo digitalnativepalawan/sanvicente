@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Search, Star, BadgeCheck, Eye, EyeOff, Pencil, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Search, Star, BadgeCheck, Eye, EyeOff, Pencil, Trash2, ExternalLink, Upload } from "lucide-react";
 import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,9 +44,14 @@ const AdminBusinesses = () => {
         title="Businesses"
         description={`${filtered.length} of ${businesses.length} listings`}
         action={
-          <Button asChild className="h-11 rounded-full gradient-sunset text-accent-foreground">
-            <Link to="/admin/businesses/new"><Plus className="mr-1.5 h-4 w-4" />Add business</Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline" className="h-11 rounded-full">
+              <Link to="/admin/businesses/import"><Upload className="mr-1.5 h-4 w-4" />Import KMZ</Link>
+            </Button>
+            <Button asChild className="h-11 rounded-full gradient-sunset text-accent-foreground">
+              <Link to="/admin/businesses/new"><Plus className="mr-1.5 h-4 w-4" />Add business</Link>
+            </Button>
+          </div>
         }
       />
 
