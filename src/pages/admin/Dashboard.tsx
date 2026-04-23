@@ -30,6 +30,40 @@ const AdminDashboard = () => {
     .sort((a, b) => (b.viewCount ?? 0) - (a.viewCount ?? 0))
     .slice(0, 5);
 
+  // ---- Cloud migration state ----
+  const [cloudOn, setCloudOn] = useState<boolean>(isCloudEnabled());
+  const [migrating, setMigrating] = useState(false);
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+
+  const handleMigrate = async () => {
+    if (migrating) return;
+    setMigrating(true);
+    setProgress({ done: 0, total: businesses.length });
+    toast.info(`Uploading ${businesses.length} businesses to the cloud…`);
+    try {
+      const res = await businessStore.migrateAllToCloud((done, total) => {
+        setProgress({ done, total });
+      });
+      if (res.failed === 0) {
+        setCloudOn(true);
+        toast.success(`✅ Migrated ${res.uploaded} businesses to the cloud. App now reads/writes from the cloud.`);
+      } else {
+        toast.error(`Migrated ${res.uploaded}, failed ${res.failed}. ${res.errors[0] ?? ""}`);
+      }
+    } catch (e: any) {
+      toast.error(`Migration failed: ${e?.message ?? "unknown error"}`);
+    } finally {
+      setMigrating(false);
+    }
+  };
+
+  const toggleCloud = () => {
+    const next = !cloudOn;
+    setCloudEnabled(next);
+    setCloudOn(next);
+    toast.success(next ? "Cloud mode ON — reads & writes go to the database." : "Cloud mode OFF — using local backup.");
+  };
+
   return (
     <AdminLayout>
       <AdminPageHeader
