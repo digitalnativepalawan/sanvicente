@@ -6,7 +6,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { CategoryCard } from "@/components/CategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
 import { CATEGORIES } from "@/data/categories";
-import { BUSINESSES, getFeaturedBusinesses, getRecentBusinesses } from "@/data/businesses";
+import { useBusinesses } from "@/data/businessStore";
 import hero from "@/assets/hero-sanvicente.jpg";
 
 const Index = () => {

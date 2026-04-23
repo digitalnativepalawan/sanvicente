@@ -121,7 +121,10 @@ export const analytics = {
 
 export const useBusinesses = () => {
   const [items, setItems] = useState<Business[]>(() => load());
-  useEffect(() => businessStore.subscribe(() => setItems([...load()])), []);
+  useEffect(() => {
+    const unsub = businessStore.subscribe(() => setItems([...load()]));
+    return () => { unsub; };
+  }, []);
   return items;
 };
 
