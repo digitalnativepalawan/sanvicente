@@ -158,6 +158,8 @@ const ImportKmz = () => {
           isVerified: true, // sourced from official LGU/TIEZA list
           isActive: true,
           listingTier: "free",
+          latitude: r.lat,
+          longitude: r.lng,
         };
         businessStore.create(payload);
         created++;

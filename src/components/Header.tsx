@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Heart, Map as MapIcon, Menu, Search, ShieldCheck, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -29,6 +29,12 @@ export const Header = () => {
               {c.label}
             </Link>
           ))}
+          <Link
+            to="/map"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-smooth hover:bg-secondary hover:text-foreground"
+          >
+            <MapIcon className="h-4 w-4" /> Map
+          </Link>
         </nav>
 
         <div className="flex items-center gap-1">
@@ -76,6 +82,13 @@ export const Header = () => {
                 {c.label}
               </Link>
             ))}
+            <Link
+              to="/map"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium hover:bg-secondary"
+            >
+              <MapIcon className="h-4 w-4" /> Map
+            </Link>
             <Link
               to="/admin"
               onClick={() => setOpen(false)}

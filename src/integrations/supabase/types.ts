@@ -32,7 +32,9 @@ export type Database = {
           is_active: boolean
           is_featured: boolean
           is_verified: boolean
+          latitude: number | null
           listing_tier: string
+          longitude: number | null
           name: string
           opening_hours: Json
           phone: string | null
@@ -64,7 +66,9 @@ export type Database = {
           is_active?: boolean
           is_featured?: boolean
           is_verified?: boolean
+          latitude?: number | null
           listing_tier?: string
+          longitude?: number | null
           name: string
           opening_hours?: Json
           phone?: string | null
@@ -96,7 +100,9 @@ export type Database = {
           is_active?: boolean
           is_featured?: boolean
           is_verified?: boolean
+          latitude?: number | null
           listing_tier?: string
+          longitude?: number | null
           name?: string
           opening_hours?: Json
           phone?: string | null

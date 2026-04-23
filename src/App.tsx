@@ -10,6 +10,7 @@ import Index from "./pages/Index.tsx";
 import Category from "./pages/Category.tsx";
 import BusinessProfile from "./pages/BusinessProfile.tsx";
 import SearchPage from "./pages/Search.tsx";
+import MapView from "./pages/MapView.tsx";
 import AdminDashboard from "./pages/admin/Dashboard.tsx";
 import AdminBusinesses from "./pages/admin/Businesses.tsx";
 import BusinessForm from "./pages/admin/BusinessForm.tsx";
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/category/:slug" element={<Category />} />
               <Route path="/business/:slug" element={<BusinessProfile />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/map" element={<MapView />} />
               <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
               <Route path="/admin/businesses" element={<RequireAdmin><AdminBusinesses /></RequireAdmin>} />
               <Route path="/admin/businesses/new" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
