@@ -14,7 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      businesses: {
+        Row: {
+          address: string
+          amenities: Json
+          barangay: string
+          category: string
+          created_at: string
+          description: string
+          email: string | null
+          facebook: string | null
+          google_maps_link: string | null
+          id: string
+          image: string
+          images: Json
+          instagram: string | null
+          is_active: boolean
+          is_featured: boolean
+          is_verified: boolean
+          listing_tier: string
+          name: string
+          opening_hours: Json
+          phone: string | null
+          price_range: string
+          rating: number
+          review_count: number
+          services: Json
+          short_description: string
+          slug: string
+          subcategory: string | null
+          updated_at: string
+          view_count: number
+          website: string | null
+        }
+        Insert: {
+          address?: string
+          amenities?: Json
+          barangay?: string
+          category: string
+          created_at?: string
+          description?: string
+          email?: string | null
+          facebook?: string | null
+          google_maps_link?: string | null
+          id?: string
+          image?: string
+          images?: Json
+          instagram?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_verified?: boolean
+          listing_tier?: string
+          name: string
+          opening_hours?: Json
+          phone?: string | null
+          price_range?: string
+          rating?: number
+          review_count?: number
+          services?: Json
+          short_description?: string
+          slug: string
+          subcategory?: string | null
+          updated_at?: string
+          view_count?: number
+          website?: string | null
+        }
+        Update: {
+          address?: string
+          amenities?: Json
+          barangay?: string
+          category?: string
+          created_at?: string
+          description?: string
+          email?: string | null
+          facebook?: string | null
+          google_maps_link?: string | null
+          id?: string
+          image?: string
+          images?: Json
+          instagram?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_verified?: boolean
+          listing_tier?: string
+          name?: string
+          opening_hours?: Json
+          phone?: string | null
+          price_range?: string
+          rating?: number
+          review_count?: number
+          services?: Json
+          short_description?: string
+          slug?: string
+          subcategory?: string | null
+          updated_at?: string
+          view_count?: number
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
