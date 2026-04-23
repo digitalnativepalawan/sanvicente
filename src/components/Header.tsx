@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Menu, Search, X } from "lucide-react";
+import { Heart, Menu, Search, ShieldCheck, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -41,6 +41,15 @@ export const Header = () => {
           >
             <Search className="h-5 w-5" />
           </Button>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            aria-label="Admin"
+            className="hidden h-11 w-11 rounded-full sm:inline-flex"
+          >
+            <Link to="/admin"><ShieldCheck className="h-5 w-5" /></Link>
+          </Button>
           <ThemeToggle />
           <Button
             variant="ghost"
@@ -67,6 +76,13 @@ export const Header = () => {
                 {c.label}
               </Link>
             ))}
+            <Link
+              to="/admin"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-secondary"
+            >
+              <ShieldCheck className="h-4 w-4" /> Admin
+            </Link>
           </nav>
         </div>
       )}
