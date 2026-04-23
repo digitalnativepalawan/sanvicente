@@ -13,6 +13,7 @@ import SearchPage from "./pages/Search.tsx";
 import AdminDashboard from "./pages/admin/Dashboard.tsx";
 import AdminBusinesses from "./pages/admin/Businesses.tsx";
 import BusinessForm from "./pages/admin/BusinessForm.tsx";
+import ImportKmz from "./pages/admin/ImportKmz.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
               <Route path="/admin/businesses" element={<RequireAdmin><AdminBusinesses /></RequireAdmin>} />
               <Route path="/admin/businesses/new" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
+              <Route path="/admin/businesses/import" element={<RequireAdmin><ImportKmz /></RequireAdmin>} />
               <Route path="/admin/businesses/:id/edit" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
