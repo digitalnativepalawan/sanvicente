@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { BusinessCard } from "@/components/BusinessCard";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useToast } from "@/hooks/use-toast";
-import { BUSINESSES, getBusinessBySlug } from "@/data/businesses";
+import { useBusinesses, useBusinessBySlug, analytics } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 
 const dayLabels: Record<string, string> = {

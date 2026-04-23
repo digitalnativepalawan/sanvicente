@@ -22,12 +22,14 @@ const Index = () => {
     meta.setAttribute("content", desc);
   }, []);
 
-  const featured = getFeaturedBusinesses();
-  const recent = getRecentBusinesses();
-  const totalListings = BUSINESSES.length;
+  const businesses = useBusinesses();
+  const visible = businesses.filter((b) => b.isActive);
+  const featured = visible.filter((b) => b.isFeatured).slice(0, 6);
+  const recent = [...visible].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 4);
+  const totalListings = visible.length;
 
   const counts = CATEGORIES.reduce<Record<string, number>>((acc, c) => {
-    acc[c.slug] = BUSINESSES.filter((b) => b.category === c.slug).length;
+    acc[c.slug] = visible.filter((b) => b.category === c.slug).length;
     return acc;
   }, {});
 

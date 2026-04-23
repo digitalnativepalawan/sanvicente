@@ -6,7 +6,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { BusinessCard } from "@/components/BusinessCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BUSINESSES } from "@/data/businesses";
+import { useBusinesses } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 import type { Category } from "@/types/business";
 

@@ -6,7 +6,7 @@ import { BusinessCard } from "@/components/BusinessCard";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORIES, getCategory } from "@/data/categories";
-import { getBusinessesByCategory } from "@/data/businesses";
+import { useBusinesses } from "@/data/businessStore";
 
 type SortKey = "featured" | "rating" | "name" | "newest";
 
