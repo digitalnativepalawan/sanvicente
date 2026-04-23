@@ -228,9 +228,39 @@ export const businessStore = {
     let uploaded = 0;
     let failed = 0;
     const errors: string[] = [];
+
+    // Pre-fetch existing slugs from cloud to avoid unique-constraint collisions
+    const existingSlugs = new Set<string>();
+    try {
+      const { data: existing } = await supabase
+        .from("businesses" as any)
+        .select("slug");
+      (existing as any[] | null)?.forEach((r) => r?.slug && existingSlugs.add(r.slug));
+    } catch { /* ignore — will surface per-row */ }
+
+    // Ensure unique slugs across the batch + existing cloud rows
+    const seen = new Set<string>(existingSlugs);
+    const deduped = list.map((b) => {
+      const base = (b.slug && b.slug.trim()) || slugify(b.name) || "business";
+      let candidate = base;
+      let n = 2;
+      while (seen.has(candidate)) {
+        candidate = `${base}-${n}`;
+        n++;
+      }
+      seen.add(candidate);
+      if (candidate !== b.slug) {
+        // Persist locally too so app stays in sync
+        memoryStore = (memoryStore ?? list).map((x) => (x.id === b.id ? { ...x, slug: candidate } : x));
+        return { ...b, slug: candidate };
+      }
+      return b;
+    });
+    persist();
+
     const CHUNK = 50;
-    for (let i = 0; i < list.length; i += CHUNK) {
-      const chunk = list.slice(i, i + CHUNK).map(businessToRow);
+    for (let i = 0; i < deduped.length; i += CHUNK) {
+      const chunk = deduped.slice(i, i + CHUNK).map(businessToRow);
       const { error } = await supabase
         .from("businesses" as any)
         .upsert(chunk, { onConflict: "id" });
