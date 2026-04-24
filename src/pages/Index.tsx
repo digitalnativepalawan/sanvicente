@@ -50,6 +50,8 @@ const Index = () => {
   }, []);
 
   const businesses = useBusinesses();
+  const { settings } = useSiteSettings();
+  const categoryImages = settings.category_images || {};
   const visible = businesses.filter((b) => b.isActive);
   const featured = visible.filter((b) => b.isFeatured).slice(0, 6);
   const recent = [...visible].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 4);
@@ -131,7 +133,7 @@ const Index = () => {
                 to={`/category/${c.slug}`}
                 label={c.label}
                 count={counts[c.slug] ?? 0}
-                image={FEATURED_CATEGORY_IMAGES[c.slug]}
+                image={categoryImages[c.slug] || FEATURED_CATEGORY_IMAGES[c.slug]}
               />
             ))}
         </div>

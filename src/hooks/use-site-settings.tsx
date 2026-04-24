@@ -23,6 +23,7 @@ export type SiteSettings = {
   website_url: string;
   footer_links: LinkItem[];
   partner_links: LinkItem[];
+  category_images: Record<string, string>;
 };
 
 const DEFAULTS: SiteSettings = {
@@ -45,6 +46,7 @@ const DEFAULTS: SiteSettings = {
   website_url: "",
   footer_links: [],
   partner_links: [],
+  category_images: {},
 };
 
 type Ctx = {
@@ -61,6 +63,9 @@ const normalize = (row: Record<string, unknown>): SiteSettings => ({
   ...row,
   footer_links: Array.isArray(row?.footer_links) ? (row.footer_links as LinkItem[]) : [],
   partner_links: Array.isArray(row?.partner_links) ? (row.partner_links as LinkItem[]) : [],
+  category_images: (row?.category_images && typeof row.category_images === "object" && !Array.isArray(row.category_images))
+    ? (row.category_images as Record<string, string>)
+    : {},
 } as SiteSettings);
 
 export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
@@ -84,7 +89,7 @@ export const SiteSettingsProvider = ({ children }: { children: ReactNode }) => {
     if (!settings.id) {
       const { data, error } = await supabase
         .from("site_settings")
-        .insert({ ...DEFAULTS, ...patch, footer_links: patch.footer_links ?? [], partner_links: patch.partner_links ?? [] })
+        .insert({ ...DEFAULTS, ...patch, footer_links: patch.footer_links ?? [], partner_links: patch.partner_links ?? [], category_images: patch.category_images ?? {} })
         .select("*")
         .maybeSingle();
       if (error) throw error;

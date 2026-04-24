@@ -242,6 +242,7 @@ export type Database = {
       }
       site_settings: {
         Row: {
+          category_images: Json
           contact_email: string | null
           contact_phone: string | null
           copyright_text: string
@@ -266,6 +267,7 @@ export type Database = {
           youtube_url: string | null
         }
         Insert: {
+          category_images?: Json
           contact_email?: string | null
           contact_phone?: string | null
           copyright_text?: string
@@ -290,6 +292,7 @@ export type Database = {
           youtube_url?: string | null
         }
         Update: {
+          category_images?: Json
           contact_email?: string | null
           contact_phone?: string | null
           copyright_text?: string
