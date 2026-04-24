@@ -4,19 +4,21 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
 import { CATEGORIES } from "@/data/categories";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { settings } = useSiteSettings();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between gap-4 px-4 md:h-20">
-        <Link to="/" className="flex items-center" aria-label="San Vicente Directory home">
+      <div className="container flex h-20 items-center justify-between gap-4 px-4 md:h-24">
+        <Link to="/" className="flex items-center" aria-label={`${settings.site_name} home`}>
           <img
-            src="https://hqsbyagdsgfwjvkxmyzm.supabase.co/storage/v1/object/public/logo-sanvic/Untitled%20design.png"
-            alt="San Vicente Directory logo"
-            className="h-10 w-auto md:h-12 lg:h-14"
+            src={settings.logo_url}
+            alt={`${settings.site_name} logo`}
+            className="h-auto w-[80px] max-w-full object-contain md:w-[120px]"
             loading="eager"
             decoding="async"
           />
