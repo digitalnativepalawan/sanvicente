@@ -148,7 +148,7 @@ const AdminSettings = () => {
               <div className="flex flex-wrap gap-2">
                 <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
                   {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadIcon className="mr-2 h-4 w-4" />}
-                  Upload logo (max 5 MB)
+                  Upload logo
                 </Button>
               </div>
               <Input
