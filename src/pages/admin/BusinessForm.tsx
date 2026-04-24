@@ -35,6 +35,7 @@ const empty: FormState = {
   services: [],
   amenities: [],
   image: resortDefault,
+  images: [],
   priceRange: "₱₱",
   openingHours: {
     mon: "8:00 AM – 9:00 PM", tue: "8:00 AM – 9:00 PM", wed: "8:00 AM – 9:00 PM",
@@ -93,7 +94,14 @@ const BusinessForm = () => {
       return;
     }
     const reader = new FileReader();
-    reader.onload = () => update("image", String(reader.result));
+    reader.onload = () => {
+      const nextImage = String(reader.result);
+      setForm((current) => ({
+        ...current,
+        image: nextImage,
+        images: [nextImage, ...(current.images ?? []).filter((img) => img && img !== nextImage)].slice(0, 8),
+      }));
+    };
     reader.readAsDataURL(file);
   };
 
@@ -101,7 +109,8 @@ const BusinessForm = () => {
     e.preventDefault();
     const services = servicesText.split(",").map((s) => s.trim()).filter(Boolean);
     const amenities = amenitiesText.split(",").map((s) => s.trim()).filter(Boolean);
-    const payload = { ...form, services, amenities, slug: form.slug || slugify(form.name) };
+    const normalizedImages = [form.image, ...(form.images ?? [])].filter((img, index, arr): img is string => !!img && arr.indexOf(img) === index).slice(0, 8);
+    const payload = { ...form, services, amenities, slug: form.slug || slugify(form.name), images: normalizedImages };
 
     if (!payload.name || !payload.barangay || !payload.address || !payload.shortDescription) {
       toast({ title: "Missing fields", description: "Name, address, barangay, and short description are required.", variant: "destructive" });
