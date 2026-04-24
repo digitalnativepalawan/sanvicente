@@ -8,10 +8,10 @@ export class UploadError extends Error {}
 const sanitize = (name: string) =>
   name.toLowerCase().replace(/[^a-z0-9.\-_]+/g, "-").replace(/-+/g, "-");
 
-/** Uploads a single image to Cloud storage and returns the public URL. */
-export const uploadImage = async (file: File, folder = "biz", maxBytes = MAX_BYTES): Promise<string> => {
+/** Uploads a single image to Cloud storage and returns the public URL. Pass maxBytes=0 to skip size check. */
+export const uploadImage = async (file: File, folder = "biz", maxBytes: number = MAX_BYTES): Promise<string> => {
   if (!file.type.startsWith("image/")) throw new UploadError("Only image files are allowed.");
-  if (file.size > maxBytes) throw new UploadError(`Image must be under ${Math.round(maxBytes / 1024 / 1024)} MB.`);
+  if (maxBytes > 0 && file.size > maxBytes) throw new UploadError(`Image must be under ${Math.round(maxBytes / 1024 / 1024)} MB.`);
   const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
   const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${sanitize(file.name).slice(0, 40)}.${ext}`;
   const { error } = await supabase.storage.from(BUCKET).upload(path, file, {

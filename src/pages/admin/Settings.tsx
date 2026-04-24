@@ -91,7 +91,7 @@ const AdminSettings = () => {
   const handleLogoUpload = async (file: File) => {
     setUploading(true);
     try {
-      const url = await uploadImage(file, "logos", 5 * 1024 * 1024);
+      const url = await uploadImage(file, "logos", 0);
       set("logo_url", url);
       toast({ title: "Logo uploaded", description: "Click Save to apply." });
     } catch (err) {
@@ -148,7 +148,7 @@ const AdminSettings = () => {
               <div className="flex flex-wrap gap-2">
                 <Button type="button" variant="outline" onClick={() => fileRef.current?.click()} disabled={uploading}>
                   {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UploadIcon className="mr-2 h-4 w-4" />}
-                  Upload logo (max 5 MB)
+                  Upload logo
                 </Button>
               </div>
               <Input
