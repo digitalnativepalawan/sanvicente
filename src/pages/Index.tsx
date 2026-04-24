@@ -64,7 +64,7 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* Hero — softer gradient surface */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -72,12 +72,13 @@ const Index = () => {
             alt="Aerial view of Long Beach in San Vicente, Palawan at sunset"
             width={1920}
             height={1280}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover opacity-40"
           />
           <div className="absolute inset-0 gradient-hero" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/30" />
         </div>
 
-        <div className="container relative px-4 py-20 md:py-32 lg:py-40">
+        <div className="container relative px-4 py-16 md:py-24 lg:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <HeroLogo />
             <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-md">
@@ -92,7 +93,7 @@ const Index = () => {
               A locally curated directory of resorts, restaurants, tours, and hidden gems along Palawan's legendary 14-km Long Beach.
             </p>
 
-            <div className="mx-auto mt-8 max-w-2xl">
+            <div className="mx-auto mt-8 max-w-2xl rounded-2xl bg-background/10 p-2 backdrop-blur-md md:p-3">
               <SearchBar variant="hero" />
             </div>
 
@@ -139,13 +140,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured */}
+      {/* Featured — horizontal carousel */}
       <section className="border-y border-border/60 bg-secondary/30">
         <div className="container px-4 py-16 md:py-24">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-accent">Featured</p>
-              <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Loved by travelers</h2>
+              <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Featured listings</h2>
               <p className="mt-2 max-w-md text-muted-foreground">
                 Verified, top-rated places across San Vicente — handpicked by our local team.
               </p>
@@ -157,10 +158,19 @@ const Index = () => {
               View all <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((b, i) => (
-              <BusinessCard key={b.id} business={b} priority={i < 3} />
-            ))}
+
+          {/* Snap-scroll rail */}
+          <div className="-mx-4 px-4">
+            <div className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4">
+              {featured.map((b, i) => (
+                <div
+                  key={b.id}
+                  className="snap-start shrink-0 basis-[85%] sm:basis-[45%] md:basis-[32%] lg:basis-[24%]"
+                >
+                  <BusinessCard business={b} priority={i < 3} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

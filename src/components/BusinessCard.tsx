@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, MapPin, Star, BadgeCheck } from "lucide-react";
+import { Heart, Star, BadgeCheck, ArrowRight } from "lucide-react";
 import fallbackImage from "@/assets/biz-resort.jpg";
 import type { Business } from "@/types/business";
 import { useFavorites } from "@/hooks/use-favorites";
@@ -18,14 +18,17 @@ export const BusinessCard = ({ business, priority }: Props) => {
   const cat = CATEGORIES.find((c) => c.slug === business.category);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-smooth hover:-translate-y-1 hover:shadow-card">
-      <Link to={`/business/${business.slug}`} className="relative block aspect-[4/3] overflow-hidden bg-muted">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-soft transition-smooth hover:-translate-y-1 hover:shadow-card">
+      <Link
+        to={`/business/${business.slug}`}
+        className="relative block aspect-video overflow-hidden bg-muted"
+      >
         <img
           src={getBusinessImage(business)}
           alt={business.name}
           loading={priority ? "eager" : "lazy"}
           width={1280}
-          height={896}
+          height={720}
           className="h-full w-full object-cover transition-smooth duration-500 group-hover:scale-105"
           onError={(event) => {
             const img = event.currentTarget;
@@ -46,39 +49,45 @@ export const BusinessCard = ({ business, priority }: Props) => {
             toggle(business.id);
           }}
           aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full bg-background/85 backdrop-blur transition-smooth hover:bg-background"
+          className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-background/85 backdrop-blur transition-smooth hover:bg-background"
         >
           <Heart className={`h-5 w-5 ${fav ? "fill-accent text-accent" : "text-foreground"}`} />
         </button>
       </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <div className="flex items-center justify-between gap-2 text-xs">
-          <span className="font-medium uppercase tracking-wider text-primary">{cat?.label.split(" ")[0]}</span>
-          <span className="text-muted-foreground">{business.priceRange}</span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+            {cat?.label.split(" ")[0] ?? business.category}
+          </span>
+          <span className="flex items-center gap-1 text-sm font-semibold">
+            <Star className="h-4 w-4 fill-accent text-accent" aria-hidden />
+            {business.rating.toFixed(1)}
+            <span className="font-normal text-muted-foreground">({business.reviewCount})</span>
+          </span>
         </div>
 
-        <Link to={`/business/${business.slug}`} className="space-y-1">
+        <Link to={`/business/${business.slug}`} className="space-y-1.5">
           <h3 className="flex items-start gap-1.5 font-display text-lg font-bold leading-tight text-balance">
             {business.name}
             {business.isVerified && (
               <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-label="Verified" />
             )}
           </h3>
-          <p className="line-clamp-2 text-sm text-muted-foreground">{business.shortDescription}</p>
+          <p className="line-clamp-1 text-sm text-muted-foreground">{business.shortDescription}</p>
         </Link>
 
-        <div className="mt-auto flex items-center justify-between gap-3 pt-2 text-sm">
-          <span className="flex items-center gap-1 text-muted-foreground">
-            <MapPin className="h-4 w-4" aria-hidden />
-            <span className="truncate">{business.barangay}</span>
-          </span>
-          <span className="flex items-center gap-1 font-semibold">
-            <Star className="h-4 w-4 fill-accent text-accent" aria-hidden />
-            {business.rating.toFixed(1)}
-            <span className="font-normal text-muted-foreground">({business.reviewCount})</span>
-          </span>
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span className="truncate">{business.barangay}</span>
+          <span className="font-medium">{business.priceRange}</span>
         </div>
+
+        <Link
+          to={`/business/${business.slug}`}
+          className="mt-auto inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-border bg-background text-sm font-semibold text-foreground transition-smooth hover:border-primary hover:bg-primary hover:text-primary-foreground"
+        >
+          View details <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </article>
   );
