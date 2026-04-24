@@ -91,7 +91,7 @@ const AdminSettings = () => {
   const handleLogoUpload = async (file: File) => {
     setUploading(true);
     try {
-      const url = await uploadImage(file, "logos", 5 * 1024 * 1024);
+      const url = await uploadImage(file, "logos", 0);
       set("logo_url", url);
       toast({ title: "Logo uploaded", description: "Click Save to apply." });
     } catch (err) {
