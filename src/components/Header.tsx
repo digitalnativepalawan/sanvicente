@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Map as MapIcon, Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Map as MapIcon, Menu, Plus, Search, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -37,6 +37,12 @@ export const Header = () => {
             className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-smooth hover:bg-secondary hover:text-foreground"
           >
             <MapIcon className="h-4 w-4" /> Map
+          </Link>
+          <Link
+            to="/list-your-business"
+            className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-2 text-sm font-semibold text-background transition-smooth hover:opacity-90"
+          >
+            <Plus className="h-4 w-4" /> List business
           </Link>
         </nav>
 
@@ -93,9 +99,16 @@ export const Header = () => {
               <MapIcon className="h-4 w-4" /> Map
             </Link>
             <Link
+              to="/list-your-business"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center gap-2 rounded-xl bg-foreground px-4 py-3 text-base font-semibold text-background"
+            >
+              <Plus className="h-4 w-4" /> List your business
+            </Link>
+            <Link
               to="/admin"
               onClick={() => setOpen(false)}
-              className="mt-2 flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-secondary"
+              className="flex items-center gap-2 rounded-xl px-4 py-3 text-base font-medium text-muted-foreground hover:bg-secondary"
             >
               <ShieldCheck className="h-4 w-4" /> Admin
             </Link>

@@ -19,6 +19,15 @@ export interface OpeningHours {
   sun?: string;
 }
 
+export interface RoomType {
+  id: string;
+  name: string;
+  description?: string;
+  pricePerNight?: string;
+  maxGuests?: number;
+  images: string[]; // up to 6
+}
+
 export interface Business {
   id: string;
   name: string;
@@ -39,6 +48,8 @@ export interface Business {
   amenities: string[];
   image: string;
   images?: string[];
+  menuImages?: string[]; // up to 10
+  roomTypes?: RoomType[];
   priceRange: PriceRange;
   openingHours: OpeningHours;
   isFeatured: boolean;
