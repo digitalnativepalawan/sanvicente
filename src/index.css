@@ -58,8 +58,12 @@
 
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 
-    --font-display: 'Inter', system-ui, sans-serif;
+    --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
     --font-sans: 'Inter', system-ui, sans-serif;
+
+    /* Deep Midnight Navy for editorial dark sections */
+    --midnight: 200 33% 6%;
+    --midnight-foreground: 0 0% 98%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
