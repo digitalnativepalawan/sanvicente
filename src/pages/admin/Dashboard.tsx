@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles, Cloud, CloudOff, Loader2, CheckCircle2 } from "lucide-react";
+import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles, Cloud, CloudOff, Loader2, CheckCircle2, Settings as SettingsIcon, ShieldCheck, Inbox, Upload as UploadIcon, Image as ImageIcon } from "lucide-react";
 import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useBusinesses, analytics, businessStore, isCloudEnabled, setCloudEnabled } from "@/data/businessStore";
