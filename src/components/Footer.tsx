@@ -16,10 +16,11 @@ export const Footer = () => {
   ].filter((s) => s.url);
 
   return (
-    <footer className="border-t border-border/60 bg-secondary/30">
+    <footer className="border-t border-border/60 bg-secondary/50">
       <div className="container px-4 py-12 md:py-16">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
+        <div className="grid gap-10 md:grid-cols-3">
+          {/* Col 1: Brand */}
+          <div>
             <Link to="/" className="inline-flex items-center" aria-label={`${settings.site_name} home`}>
               <img
                 src={settings.logo_url}
@@ -69,6 +70,7 @@ export const Footer = () => {
             )}
           </div>
 
+          {/* Col 2: Categories */}
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-wider">Categories</h3>
             <ul className="mt-4 space-y-2">
@@ -82,6 +84,7 @@ export const Footer = () => {
             </ul>
           </div>
 
+          {/* Col 3: Directory + Featured */}
           <div className="space-y-8">
             <div>
               <h3 className="font-display text-sm font-semibold uppercase tracking-wider">Directory</h3>
