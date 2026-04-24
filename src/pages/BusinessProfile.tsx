@@ -46,6 +46,10 @@ const BusinessProfile = () => {
   const allBusinesses = useBusinesses();
   const { has, toggle } = useFavorites();
   const { toast } = useToast();
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIdx, setGalleryIdx] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuIdx, setMenuIdx] = useState(0);
 
   useEffect(() => {
     if (business) analytics.trackView(business.id);
@@ -240,9 +244,15 @@ const BusinessProfile = () => {
                 <h2 className="font-display text-2xl font-bold">Photos</h2>
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {business.images!.map((url, i) => (
-                    <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-2xl border border-border bg-muted">
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => { setGalleryIdx(i); setGalleryOpen(true); }}
+                      className="block overflow-hidden rounded-2xl border border-border bg-muted"
+                      aria-label={`Open photo ${i + 1}`}
+                    >
                       <img src={url} alt={`${business.name} photo ${i + 1}`} loading="lazy" className="aspect-square w-full object-cover transition-smooth hover:scale-105" />
-                    </a>
+                    </button>
                   ))}
                 </div>
               </section>
@@ -252,30 +262,10 @@ const BusinessProfile = () => {
             {business.category === "resorts" && (business.roomTypes?.length ?? 0) > 0 && (
               <section>
                 <h2 className="font-display text-2xl font-bold">Room types</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Tap any photo to view all images. Scroll for amenities and details.</p>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   {business.roomTypes!.map((room) => (
-                    <article key={room.id} className="overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
-                      {room.images[0] && (
-                        <img src={room.images[0]} alt={room.name} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-                      )}
-                      <div className="p-4">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <h3 className="font-display text-lg font-bold">{room.name || "Room"}</h3>
-                          {room.pricePerNight && <span className="text-sm font-semibold text-primary">{room.pricePerNight}/night</span>}
-                        </div>
-                        {room.maxGuests != null && <p className="mt-1 text-xs text-muted-foreground">Sleeps up to {room.maxGuests}</p>}
-                        {room.description && <p className="mt-2 text-sm text-muted-foreground">{room.description}</p>}
-                        {room.images.length > 1 && (
-                          <div className="mt-3 grid grid-cols-3 gap-1.5">
-                            {room.images.slice(1, 7).map((u, i) => (
-                              <a key={i} href={u} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-lg bg-muted">
-                                <img src={u} alt={`${room.name} ${i + 2}`} loading="lazy" className="aspect-square w-full object-cover" />
-                              </a>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </article>
+                    <RoomCard key={room.id} room={room} />
                   ))}
                 </div>
               </section>
