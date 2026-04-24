@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { useSiteSettings, type SiteSettings, type LinkItem } from "@/hooks/use-site-settings";
 import { uploadImage } from "@/lib/upload";
 import { useToast } from "@/hooks/use-toast";
+import { CATEGORIES } from "@/data/categories";
 
 const Section = ({ title, description, children }: { title: string; description?: string; children: React.ReactNode }) => (
   <Card className="space-y-4 p-5 md:p-6">
@@ -63,7 +64,86 @@ const LinksEditor = ({
   );
 };
 
-const AdminSettings = () => {
+const CategoryImagesEditor = ({
+  value,
+  onChange,
+}: {
+  value: Record<string, string>;
+  onChange: (v: Record<string, string>) => void;
+}) => {
+  const { toast } = useToast();
+  const [busy, setBusy] = useState<string | null>(null);
+  const inputs = useRef<Record<string, HTMLInputElement | null>>({});
+
+  const handleUpload = async (slug: string, file: File) => {
+    setBusy(slug);
+    try {
+      const url = await uploadImage(file, "logos", 0);
+      onChange({ ...value, [slug]: url });
+      toast({ title: "Image uploaded", description: "Click Save to apply." });
+    } catch (err) {
+      toast({ title: "Upload failed", description: (err as Error).message, variant: "destructive" });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const clear = (slug: string) => {
+    const next = { ...value };
+    delete next[slug];
+    onChange(next);
+  };
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {CATEGORIES.map((c) => {
+        const url = value?.[c.slug];
+        return (
+          <div key={c.slug} className="flex gap-3 rounded-xl border border-border p-3">
+            <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-lg bg-muted">
+              {url ? (
+                <img src={url} alt={c.label} className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-[10px] text-muted-foreground">Default</span>
+              )}
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col gap-2">
+              <div className="truncate text-sm font-semibold">{c.label}</div>
+              <input
+                ref={(el) => (inputs.current[c.slug] = el)}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleUpload(c.slug, f);
+                  e.target.value = "";
+                }}
+              />
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => inputs.current[c.slug]?.click()}
+                  disabled={busy === c.slug}
+                >
+                  {busy === c.slug ? <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" /> : <UploadIcon className="mr-1 h-3.5 w-3.5" />}
+                  {url ? "Change" : "Upload"}
+                </Button>
+                {url && (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => clear(c.slug)}>
+                    <Trash2 className="mr-1 h-3.5 w-3.5" /> Reset
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
   const { settings, loading, save } = useSiteSettings();
   const [form, setForm] = useState<SiteSettings>(settings);
   const [saving, setSaving] = useState(false);
@@ -250,6 +330,13 @@ const AdminSettings = () => {
             value={form.partner_links}
             onChange={(v) => set("partner_links", v)}
             addLabel="Add featured link"
+          />
+        </Section>
+
+        <Section title="Category images" description="Upload the photo shown on each category card on the homepage. Recommended: square images, at least 800×800.">
+          <CategoryImagesEditor
+            value={form.category_images}
+            onChange={(v) => set("category_images", v)}
           />
         </Section>
 
