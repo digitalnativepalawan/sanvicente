@@ -35,20 +35,8 @@ export const Lightbox = ({ images, open, startIndex = 0, onOpenChange, alt = "Ph
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="max-w-5xl border-0 bg-background/95 p-0 sm:rounded-3xl"
-        hideClose
-      >
+      <DialogContent className="max-w-5xl border-0 bg-background/95 p-0 sm:rounded-3xl">
         <div className="relative flex h-[85vh] w-full items-center justify-center">
-          <button
-            type="button"
-            onClick={() => onOpenChange(false)}
-            aria-label="Close"
-            className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-foreground/85 text-background shadow-soft transition hover:bg-foreground"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
           <img
             src={images[idx]}
             alt={`${alt} ${idx + 1}`}
