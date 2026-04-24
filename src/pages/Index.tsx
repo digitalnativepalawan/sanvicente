@@ -50,13 +50,7 @@ const Index = () => {
 
         <div className="container relative px-4 py-20 md:py-32 lg:py-40">
           <div className="mx-auto max-w-3xl text-center">
-            <img
-              src="https://hqsbyagdsgfwjvkxmyzm.supabase.co/storage/v1/object/public/logo-sanvic/Untitled%20design.png"
-              alt="San Vicente Directory logo"
-              className="mx-auto mb-6 h-20 w-auto sm:h-24 md:h-28 lg:h-32"
-              loading="eager"
-              decoding="async"
-            />
+            <HeroLogo />
             <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-md">
               <Sparkles className="h-3.5 w-3.5" />
               Palawan, Philippines
