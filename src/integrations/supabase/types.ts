@@ -240,6 +240,81 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          contact_email: string | null
+          contact_phone: string | null
+          copyright_text: string
+          created_at: string
+          facebook_url: string | null
+          footer_links: Json
+          footer_tagline: string
+          id: string
+          instagram_url: string | null
+          logo_size_footer: number
+          logo_size_header: number
+          logo_size_hero: number
+          logo_url: string
+          partner_links: Json
+          singleton: boolean
+          site_name: string
+          site_tagline: string
+          tiktok_url: string | null
+          updated_at: string
+          website_url: string | null
+          x_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          copyright_text?: string
+          created_at?: string
+          facebook_url?: string | null
+          footer_links?: Json
+          footer_tagline?: string
+          id?: string
+          instagram_url?: string | null
+          logo_size_footer?: number
+          logo_size_header?: number
+          logo_size_hero?: number
+          logo_url?: string
+          partner_links?: Json
+          singleton?: boolean
+          site_name?: string
+          site_tagline?: string
+          tiktok_url?: string | null
+          updated_at?: string
+          website_url?: string | null
+          x_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_phone?: string | null
+          copyright_text?: string
+          created_at?: string
+          facebook_url?: string | null
+          footer_links?: Json
+          footer_tagline?: string
+          id?: string
+          instagram_url?: string | null
+          logo_size_footer?: number
+          logo_size_header?: number
+          logo_size_hero?: number
+          logo_url?: string
+          partner_links?: Json
+          singleton?: boolean
+          site_name?: string
+          site_tagline?: string
+          tiktok_url?: string | null
+          updated_at?: string
+          website_url?: string | null
+          x_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
