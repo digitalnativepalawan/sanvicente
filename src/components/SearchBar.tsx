@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 interface Props {
   defaultValue?: string;
-  variant?: "hero" | "compact";
+  variant?: "hero" | "compact" | "hero-dark";
 }
 
 export const SearchBar = ({ defaultValue = "", variant = "compact" }: Props) => {
@@ -19,6 +19,36 @@ export const SearchBar = ({ defaultValue = "", variant = "compact" }: Props) => 
   };
 
   const isHero = variant === "hero";
+  const isHeroDark = variant === "hero-dark";
+
+  if (isHeroDark) {
+    return (
+      <form
+        onSubmit={onSubmit}
+        role="search"
+        className="flex w-full items-center gap-2 rounded-2xl border border-white/30 bg-white/15 p-2 shadow-elegant backdrop-blur-xl"
+      >
+        <div className="flex flex-1 items-center gap-3 px-3">
+          <Search className="h-5 w-5 shrink-0 text-white/80" aria-hidden />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            type="search"
+            placeholder="Search resorts, tours, restaurants…"
+            aria-label="Search businesses"
+            className="h-12 w-full bg-transparent text-base text-white outline-none placeholder:text-white/70"
+          />
+        </div>
+        <Button
+          type="submit"
+          size="lg"
+          className="h-12 shrink-0 rounded-xl bg-primary px-6 font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          Search
+        </Button>
+      </form>
+    );
+  }
 
   return (
     <form
