@@ -21,8 +21,10 @@ export type Database = {
           created_at: string | null
           id: string
           owner_email: string
+          owner_message: string | null
           owner_name: string
           owner_phone: string | null
+          proposed_data: Json
           reviewed_at: string | null
           status: string | null
           updated_business_data: Json
@@ -35,8 +37,10 @@ export type Database = {
           created_at?: string | null
           id: string
           owner_email: string
+          owner_message?: string | null
           owner_name: string
           owner_phone?: string | null
+          proposed_data?: Json
           reviewed_at?: string | null
           status?: string | null
           updated_business_data: Json
@@ -49,8 +53,10 @@ export type Database = {
           created_at?: string | null
           id?: string
           owner_email?: string
+          owner_message?: string | null
           owner_name?: string
           owner_phone?: string | null
+          proposed_data?: Json
           reviewed_at?: string | null
           status?: string | null
           updated_business_data?: Json
@@ -73,6 +79,7 @@ export type Database = {
           amenities: Json
           barangay: string
           category: string
+          claimed_at: string | null
           created_at: string
           description: string
           email: string | null
@@ -83,6 +90,7 @@ export type Database = {
           images: Json
           instagram: string | null
           is_active: boolean
+          is_claimed: boolean
           is_featured: boolean
           is_verified: boolean
           latitude: number | null
@@ -107,6 +115,7 @@ export type Database = {
           amenities?: Json
           barangay?: string
           category: string
+          claimed_at?: string | null
           created_at?: string
           description?: string
           email?: string | null
@@ -117,6 +126,7 @@ export type Database = {
           images?: Json
           instagram?: string | null
           is_active?: boolean
+          is_claimed?: boolean
           is_featured?: boolean
           is_verified?: boolean
           latitude?: number | null
@@ -141,6 +151,7 @@ export type Database = {
           amenities?: Json
           barangay?: string
           category?: string
+          claimed_at?: string | null
           created_at?: string
           description?: string
           email?: string | null
@@ -151,6 +162,7 @@ export type Database = {
           images?: Json
           instagram?: string | null
           is_active?: boolean
+          is_claimed?: boolean
           is_featured?: boolean
           is_verified?: boolean
           latitude?: number | null
