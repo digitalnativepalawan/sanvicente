@@ -6,7 +6,6 @@ import { SearchBar } from "@/components/SearchBar";
 import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
 import { ExploreCoast } from "@/components/ExploreCoast";
-import { RevealCard } from "@/components/RevealCard";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import catResorts from "@/assets/cat-resorts.jpg";
@@ -30,7 +29,7 @@ const HeroLogo = () => {
     <img
       src={settings.logo_url}
       alt={`${settings.site_name} logo`}
-      style={{ height: "80px" }}
+      style={{ height: "72px" }}
       className="mx-auto mb-6 w-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
       loading="eager"
       decoding="async"
@@ -82,17 +81,14 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* HERO — full-bleed cinematic photo with parallax. Extends behind the transparent header. */}
-      <section
-        className="relative -mt-20 w-full overflow-hidden md:-mt-24"
-        style={{ minHeight: "70vh" }}
-      >
-        <div className="absolute inset-0 md:min-h-[100vh]">
+      {/* HERO — standard sized cinematic photo (no negative margin; header is solid) */}
+      <section className="relative w-full overflow-hidden" style={{ minHeight: "60vh" }}>
+        <div className="absolute inset-0">
           <img
             src={heroImage}
             alt="Long Beach San Vicente Palawan at sunset"
             className="h-[120%] w-full object-cover will-change-transform"
-            style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.05)` }}
+            style={{ transform: `translate3d(0, ${scrollY * 0.25}px, 0) scale(1.05)` }}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -106,43 +102,39 @@ const Index = () => {
           />
         </div>
 
-        <div className="relative flex min-h-[90vh] items-center justify-center md:min-h-[100vh]">
-          <div className="container px-4 pb-20 pt-32 text-center text-white md:pb-28 md:pt-40">
+        <div className="relative flex min-h-[60vh] items-center justify-center md:min-h-[70vh]">
+          <div className="container px-4 pb-16 pt-16 text-center text-white md:pb-20 md:pt-20">
             <HeroLogo />
 
-            <h1 className="font-black leading-[0.95] text-white text-balance tracking-tighter [text-shadow:0_2px_28px_rgba(0,0,0,0.5)]">
-              <span className="block text-6xl md:text-[6rem] lg:text-[7rem]">
-                San Vicente
-              </span>
+            <h1 className="font-display font-black leading-[0.95] text-white text-balance tracking-tighter [text-shadow:0_2px_28px_rgba(0,0,0,0.5)]">
+              <span className="block text-5xl md:text-7xl lg:text-[5.5rem]">San Vicente</span>
               <span
-                className="mt-2 block text-2xl italic font-semibold md:text-[2.25rem]"
+                className="mt-2 block text-2xl italic font-semibold md:text-3xl"
                 style={{ color: "hsl(var(--primary))" }}
               >
                 slowly.
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-[600px] text-base leading-relaxed text-white/85 md:text-[1.1rem]">
+            <p className="mx-auto mt-5 max-w-[600px] text-sm leading-relaxed text-white/85 md:text-base">
               A locally curated directory of resorts, restaurants, tours, and hidden gems along Palawan's legendary 14-km Long Beach.
             </p>
 
-            {/* Floating glass search card with high-elevation shadow */}
-            <div className="mx-auto mt-10 w-full max-w-[640px]">
+            <div className="mx-auto mt-8 w-full max-w-[640px]">
               <SearchBar variant="hero-dark" />
             </div>
 
-            {/* Stats */}
-            <dl className="mx-auto mt-12 flex max-w-2xl items-center justify-center divide-x divide-white/30">
+            <dl className="mx-auto mt-10 flex max-w-2xl items-center justify-center divide-x divide-white/30">
               <div className="flex-1 px-4">
-                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">{totalListings}+</dd>
+                <dd className="text-2xl font-bold tracking-tight text-white md:text-3xl">{totalListings}+</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Listings</dt>
               </div>
               <div className="flex-1 px-4">
-                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">{CATEGORIES.length}</dd>
+                <dd className="text-2xl font-bold tracking-tight text-white md:text-3xl">{CATEGORIES.length}</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Categories</dt>
               </div>
               <div className="flex-1 px-4">
-                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">14km</dd>
+                <dd className="text-2xl font-bold tracking-tight text-white md:text-3xl">14km</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Long Beach</dt>
               </div>
             </dl>
@@ -150,46 +142,43 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CATEGORIES — spacious gutters, staggered reveal */}
-      <section className="container px-4 py-24 md:py-[120px]">
-        <div className="mb-14 flex items-end justify-between gap-4">
+      {/* CATEGORIES */}
+      <section className="container px-4 py-16">
+        <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Browse</p>
-            <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Find what you need</h2>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              Find what you need
+            </h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
           {FEATURED_CATEGORY_ORDER
             .map((slug) => CATEGORIES.find((c) => c.slug === slug))
             .filter((c): c is NonNullable<typeof c> => !!c && (counts[c.slug] ?? 0) > 0)
-            .map((c, i) => (
-              <RevealCard key={c.slug} delayMs={i * 90}>
-                <FeaturedCategoryCard
-                  to={`/category/${c.slug}`}
-                  label={c.label}
-                  count={counts[c.slug] ?? 0}
-                  image={categoryImages[c.slug] || FEATURED_CATEGORY_IMAGES[c.slug]}
-                />
-              </RevealCard>
+            .map((c) => (
+              <FeaturedCategoryCard
+                key={c.slug}
+                to={`/category/${c.slug}`}
+                label={c.label}
+                count={counts[c.slug] ?? 0}
+                image={categoryImages[c.slug] || FEATURED_CATEGORY_IMAGES[c.slug]}
+              />
             ))}
         </div>
       </section>
 
-      {/* FEATURED — Bento grid (featured items span 2 cols, others span 1) */}
-      <section className="relative overflow-hidden border-y border-border bg-sand/40">
-        {/* Parallax decorative blob */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-32 top-0 h-[500px] w-[500px] rounded-full bg-primary/10 blur-3xl will-change-transform"
-          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
-        />
-        <div className="container px-4 py-24 md:py-[120px]">
-          <div className="mb-14 flex flex-wrap items-end justify-between gap-4">
+      {/* FEATURED — uniform standard grid */}
+      <section className="border-y border-border bg-secondary/30">
+        <div className="container px-4 py-16">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured</p>
-              <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Featured listings</h2>
-              <p className="mt-3 max-w-md text-muted-foreground text-balance">
-                Verified, top-rated places across San Vicente — handpicked by our local team.
+              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                Featured listings
+              </h2>
+              <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                Verified, top-rated places across San Vicente.
               </p>
             </div>
             <Link
@@ -200,72 +189,50 @@ const Index = () => {
             </Link>
           </div>
 
-          {/* Anchor: first card is a full-width 21:9 visual anchor */}
-          {featured[0] && (
-            <RevealCard className="mb-12">
-              <BusinessCard business={featured[0]} priority wide />
-            </RevealCard>
-          )}
-
-          {/* Remaining featured — 3-column grid with luxurious gap-12 */}
-          {featured.length > 1 && (
-            <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-              {featured.slice(1, 7).map((b, i) => (
-                <RevealCard key={b.id} delayMs={i * 80}>
-                  <BusinessCard business={b} priority={i < 2} />
-                </RevealCard>
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {featured.map((b, i) => (
+              <BusinessCard key={b.id} business={b} priority={i < 4} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* EXPLORE THE COAST — interactive map */}
+      {/* EXPLORE THE COAST */}
       <ExploreCoast businesses={visible} />
 
-      <section className="container relative overflow-hidden px-4 py-24 md:py-[120px]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl will-change-transform"
-          style={{ transform: `translate3d(0, ${scrollY * -0.04}px, 0)` }}
-        />
-        <div className="mb-14 flex items-end justify-between gap-4">
+      {/* RECENTLY ADDED */}
+      <section className="container px-4 py-16">
+        <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Fresh</p>
-            <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Recently added</h2>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              Recently added
+            </h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {recent.slice(0, 3).map((b, i) => (
-            <RevealCard key={b.id} delayMs={i * 80}>
-              <BusinessCard business={b} />
-            </RevealCard>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {recent.map((b) => (
+            <BusinessCard key={b.id} business={b} />
           ))}
         </div>
       </section>
 
-      {/* CTA — Mesh gradient (Emerald · Teal · Deep Blue) */}
-      <section className="container px-4 pb-20 md:pb-[100px]">
-        <div className="relative isolate overflow-hidden rounded-[2.5rem] mesh-emerald p-10 text-white shadow-elegant md:p-20">
-          {/* Inner glass veil for depth */}
-          <div className="absolute inset-0 backdrop-blur-2xl" aria-hidden />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.35)_100%)]" aria-hidden />
-
-          <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/70">For owners</p>
-            <h2 className="mt-3 font-display text-5xl font-black tracking-tighter text-balance md:text-6xl">
-              Own a business in San Vicente?
-            </h2>
-            <p className="mx-auto mt-5 max-w-lg text-white/85">
-              Get discovered by thousands of travelers. List your business for free and reach the right audience.
-            </p>
-            <Link
-              to="/list-your-business"
-              className="mt-9 inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 font-semibold text-foreground ring-1 ring-white/50 shadow-[0_10px_40px_-8px_rgba(16,185,129,0.45),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_16px_50px_-8px_rgba(16,185,129,0.55),inset_0_1px_0_rgba(255,255,255,0.6)] active:scale-[0.98]"
-            >
-              List your business <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+      {/* CTA */}
+      <section className="container px-4 pb-16">
+        <div className="rounded-2xl border border-border bg-card p-10 text-center md:p-16">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">For owners</p>
+          <h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            Own a business in San Vicente?
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-sm text-muted-foreground md:text-base">
+            Get discovered by thousands of travelers. List your business for free and reach the right audience.
+          </p>
+          <Link
+            to="/list-your-business"
+            className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-6 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            List your business <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
     </Layout>
