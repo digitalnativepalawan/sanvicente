@@ -29,8 +29,8 @@ const HeroLogo = () => {
     <img
       src={settings.logo_url}
       alt={`${settings.site_name} logo`}
-      style={{ height: `${settings.logo_size_hero}px` }}
-      className="mx-auto mb-6 w-auto"
+      style={{ height: "80px" }}
+      className="mx-auto mb-6 w-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
       loading="eager"
       decoding="async"
     />
