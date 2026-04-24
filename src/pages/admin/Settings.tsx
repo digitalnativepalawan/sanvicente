@@ -144,6 +144,8 @@ const CategoryImagesEditor = ({
     </div>
   );
 };
+
+const AdminSettings = () => {
   const { settings, loading, save } = useSiteSettings();
   const [form, setForm] = useState<SiteSettings>(settings);
   const [saving, setSaving] = useState(false);
