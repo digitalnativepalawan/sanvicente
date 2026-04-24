@@ -4,6 +4,7 @@ import type { Business } from "@/types/business";
 import { useFavorites } from "@/hooks/use-favorites";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORIES } from "@/data/categories";
+import { getBusinessImage } from "@/lib/business-image";
 
 interface Props {
   business: Business;
@@ -19,7 +20,7 @@ export const BusinessCard = ({ business, priority }: Props) => {
     <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-smooth hover:-translate-y-1 hover:shadow-card">
       <Link to={`/business/${business.slug}`} className="relative block aspect-[4/3] overflow-hidden bg-muted">
         <img
-          src={business.image}
+          src={getBusinessImage(business)}
           alt={business.name}
           loading={priority ? "eager" : "lazy"}
           width={1280}
