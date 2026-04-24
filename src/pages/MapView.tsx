@@ -169,11 +169,21 @@ const MapView = () => {
           <p class="font-semibold leading-tight">${escapeHtml(business.name)}</p>
           <span class="inline-flex rounded-full bg-secondary px-2 py-1 text-[10px] font-medium text-secondary-foreground">${escapeHtml(categoryLabel(business.category))}</span>
           ${business.shortDescription ? `<p class="text-xs text-muted-foreground">${escapeHtml(business.shortDescription)}</p>` : ""}
-          <a href="/business/${encodeURIComponent(business.slug)}" class="inline-flex h-8 w-full items-center justify-center rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground no-underline">View Details</a>
+          <button type="button" data-business-slug="${escapeHtml(business.slug)}" class="map-popup-link inline-flex h-8 w-full items-center justify-center rounded-full bg-primary px-3 text-sm font-medium text-primary-foreground no-underline cursor-pointer border-0">View Details</button>
         </div>
       `;
 
       marker.bindPopup(popupHtml);
+      marker.on("popupopen", (e) => {
+        const node = (e.popup.getElement() as HTMLElement | null)?.querySelector<HTMLButtonElement>(
+          "button.map-popup-link",
+        );
+        if (!node) return;
+        node.onclick = () => {
+          const slug = node.getAttribute("data-business-slug");
+          if (slug) navigate(`/business/${slug}`);
+        };
+      });
       marker.addTo(layer);
       bounds.extend([business.latitude, business.longitude]);
     });
@@ -181,7 +191,7 @@ const MapView = () => {
     if (bounds.isValid()) {
       map.fitBounds(bounds, { padding: [32, 32], maxZoom: 15 });
     }
-  }, [businesses]);
+  }, [businesses, navigate]);
 
   useEffect(() => {
     if (!mapRef.current) return;
