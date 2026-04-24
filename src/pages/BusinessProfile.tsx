@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   BadgeCheck,
@@ -27,6 +27,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useBusinesses, useBusinessBySlug, analytics } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 import { getBusinessImage } from "@/lib/business-image";
+import { Lightbox } from "@/components/Lightbox";
+import { RoomCard } from "@/components/RoomCard";
 
 const dayLabels: Record<string, string> = {
   mon: "Monday",
