@@ -26,10 +26,10 @@ export const SearchBar = ({ defaultValue = "", variant = "compact" }: Props) => 
       <form
         onSubmit={onSubmit}
         role="search"
-        className="flex w-full items-center gap-2 rounded-2xl border border-white/30 bg-white/15 p-2 shadow-elegant backdrop-blur-xl"
+        className="flex w-full items-center gap-2 rounded-3xl border border-white/40 bg-white/20 p-2.5 shadow-elegant backdrop-blur-2xl ring-1 ring-white/10 transition-all duration-500 hover:bg-white/25 hover:shadow-[0_24px_60px_-12px_rgba(0,0,0,0.5)]"
       >
-        <div className="flex flex-1 items-center gap-3 px-3">
-          <Search className="h-5 w-5 shrink-0 text-white/80" aria-hidden />
+        <div className="flex flex-1 items-center gap-3 px-4">
+          <Search className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -42,7 +42,7 @@ export const SearchBar = ({ defaultValue = "", variant = "compact" }: Props) => 
         <Button
           type="submit"
           size="lg"
-          className="h-12 shrink-0 rounded-xl bg-primary px-6 font-semibold text-primary-foreground hover:bg-primary/90"
+          className="h-12 shrink-0 rounded-2xl bg-primary px-6 font-semibold text-primary-foreground shadow-glow hover:bg-primary/90"
         >
           Search
         </Button>
