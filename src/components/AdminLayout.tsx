@@ -32,14 +32,14 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             <span className="grid h-9 w-9 place-items-center rounded-full gradient-ocean text-primary-foreground">SV</span>
             <span>Admin</span>
           </Link>
-          <nav className="hidden min-w-0 flex-1 gap-1 overflow-x-auto md:flex">
+          <nav className="hidden min-w-0 flex-1 flex-wrap justify-end gap-1 md:flex">
             {navItems.map((n) => {
               const active = n.end ? loc.pathname === n.to : loc.pathname.startsWith(n.to);
               return (
                 <Link
                   key={n.to}
                   to={n.to}
-                  className={`shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-smooth ${
+                  className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-smooth ${
                     active ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary"
                   }`}
                 >
@@ -64,15 +64,15 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
             </Button>
           </div>
         </div>
-        {/* Mobile nav */}
-        <nav className="flex gap-1 overflow-x-auto border-t border-border px-4 py-2 md:hidden">
+        {/* Mobile nav — wraps, no horizontal scroll */}
+        <nav className="flex flex-wrap gap-1 border-t border-border px-4 py-2 md:hidden">
           {navItems.map((n) => {
             const active = n.end ? loc.pathname === n.to : loc.pathname.startsWith(n.to);
             return (
               <Link
                 key={n.to}
                 to={n.to}
-                className={`shrink-0 rounded-full px-3 py-2 text-sm font-medium ${
+                className={`rounded-full px-3 py-2 text-sm font-medium ${
                   active ? "bg-secondary text-foreground" : "text-muted-foreground"
                 }`}
               >
