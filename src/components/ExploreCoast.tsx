@@ -5,6 +5,8 @@ import "leaflet/dist/leaflet.css";
 import { Loader2 } from "lucide-react";
 import type { Business } from "@/types/business";
 import { CATEGORIES } from "@/data/categories";
+import { useHoverStore } from "@/hooks/use-hover-store";
+import { getBusinessImage } from "@/lib/business-image";
 
 interface Props {
   businesses: Business[];
@@ -25,10 +27,10 @@ const escapeHtml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-const glowMarkerIcon = () =>
+const glowMarkerIcon = (active = false) =>
   L.divIcon({
     className: "explore-pin",
-    html: `<div class="explore-glow-marker"><span class="core"></span></div>`,
+    html: `<div class="explore-glow-marker${active ? " is-active" : ""}"><span class="core"></span></div>`,
     iconSize: [28, 28],
     iconAnchor: [14, 14],
     popupAnchor: [0, -14],
@@ -39,11 +41,13 @@ export const ExploreCoast = ({ businesses }: Props) => {
   const elRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layerRef = useRef<L.LayerGroup | null>(null);
-  const [filter, setFilter] = useState<string>("all");
+  const markersRef = useRef<Map<string, L.Marker>>(new Map());
+  const filter = useHoverStore((s) => s.categoryFilter);
+  const setFilter = useHoverStore((s) => s.setCategoryFilter);
+  const hoveredId = useHoverStore((s) => s.hoveredId);
   const [ready, setReady] = useState(false);
   const [shouldMount, setShouldMount] = useState(false);
 
-  // Lazy-mount the map once it scrolls near the viewport.
   useEffect(() => {
     if (!elRef.current) return;
     const observer = new IntersectionObserver(
@@ -90,8 +94,7 @@ export const ExploreCoast = ({ businesses }: Props) => {
     });
     mapRef.current = map;
 
-    // CartoDB Dark Matter — free, no API key, tactical dark aesthetic
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       maxZoom: 19,
       subdomains: "abcd",
       attribution:
@@ -104,17 +107,19 @@ export const ExploreCoast = ({ businesses }: Props) => {
     return () => {
       layerRef.current?.clearLayers();
       layerRef.current = null;
+      markersRef.current.clear();
       map.remove();
       mapRef.current = null;
     };
   }, [shouldMount]);
 
-  // Render pins on filter change
+  // Render pins
   useEffect(() => {
     const map = mapRef.current;
     const layer = layerRef.current;
     if (!map || !layer || !ready) return;
     layer.clearLayers();
+    markersRef.current.clear();
 
     if (visible.length === 0) {
       map.setView(CENTER, 12);
@@ -124,11 +129,13 @@ export const ExploreCoast = ({ businesses }: Props) => {
     const bounds = L.latLngBounds([]);
     visible.forEach((b) => {
       const m = L.marker([b.latitude!, b.longitude!], { icon: glowMarkerIcon() });
+      const thumb = getBusinessImage(b);
       const popup = `
-        <div style="min-width:200px">
-          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#fff">${escapeHtml(b.name)}</p>
-          <p style="margin:0 0 8px 0;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
-          <button type="button" data-slug="${escapeHtml(b.slug)}" class="explore-popup-btn" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:32px;border-radius:9999px;background:#10B981;color:#fff;border:0;font-size:12px;font-weight:600;cursor:pointer">View Details</button>
+        <div style="min-width:220px">
+          <img src="${escapeHtml(thumb)}" alt="" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:8px"/>
+          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#0f172a">${escapeHtml(b.name)}</p>
+          <p style="margin:0 0 8px 0;font-size:11px;color:#64748b">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
+          <button type="button" data-slug="${escapeHtml(b.slug)}" class="explore-popup-btn" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:32px;border-radius:6px;background:#10B981;color:#fff;border:0;font-size:12px;font-weight:600;cursor:pointer">View Details</button>
         </div>`;
       m.bindPopup(popup);
       m.on("popupopen", (e) => {
@@ -142,6 +149,7 @@ export const ExploreCoast = ({ businesses }: Props) => {
         };
       });
       m.addTo(layer);
+      markersRef.current.set(b.id, m);
       bounds.extend([b.latitude!, b.longitude!]);
     });
 
@@ -150,20 +158,31 @@ export const ExploreCoast = ({ businesses }: Props) => {
     }
   }, [visible, ready, navigate]);
 
+  // Sync hover state — set marker active class
+  useEffect(() => {
+    markersRef.current.forEach((marker, id) => {
+      marker.setIcon(glowMarkerIcon(id === hoveredId));
+      if (id === hoveredId) {
+        const el = (marker as L.Marker & { _icon?: HTMLElement })._icon;
+        el?.classList.add("is-bouncing");
+      }
+    });
+  }, [hoveredId]);
+
   return (
-    <section className="bg-[#0B1215] text-white">
-      <div className="container px-4 pt-16 md:pt-24">
-        <div className="mb-8 max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Explore</p>
-          <h2 className="mt-3 font-display text-5xl font-black tracking-tighter text-balance md:text-6xl">
-            Explore the Coast
+    <section className="bg-background">
+      <div className="container px-4 py-16">
+        <div className="mb-6 max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Explore</p>
+          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            Explore the coast
           </h2>
-          <p className="mt-4 text-sm text-white/70 md:text-base">
-            {mapped.length} places along 14km of Long Beach. Click any pin to see details.
+          <p className="mt-2 text-sm text-muted-foreground">
+            {mapped.length} places along 14km of Long Beach. Filter by category — list and map update together.
           </p>
         </div>
 
-        {/* Filter chips */}
+        {/* Filter chips — global filter */}
         <div className="no-scrollbar -mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-2">
           {FILTERS.map((f) => {
             const active = filter === f.slug;
@@ -175,7 +194,7 @@ export const ExploreCoast = ({ businesses }: Props) => {
                 className={`shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                   active
                     ? "border-primary bg-primary text-primary-foreground"
-                    : "border-white/20 bg-white/5 text-white/80 hover:bg-white/10"
+                    : "border-border bg-background text-muted-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 {f.label}
@@ -183,34 +202,24 @@ export const ExploreCoast = ({ businesses }: Props) => {
             );
           })}
         </div>
-      </div>
 
-      {/* Inset portal — rounded-[3rem] with 8px border matching section bg */}
-      <div className="container px-4">
-        <div
-          className="relative h-[420px] w-full overflow-hidden rounded-[3rem] md:h-[560px]"
-          style={{ border: "8px solid #0B1215", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.06)" }}
-        >
+        <div className="relative h-[420px] w-full overflow-hidden rounded-xl border border-border md:h-[520px]">
           {!ready && (
-            <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0B1215]">
-              <div className="flex items-center gap-2 text-sm text-white/70">
+            <div className="absolute inset-0 z-[1] grid place-items-center bg-secondary">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
               </div>
             </div>
           )}
           <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
         </div>
-      </div>
 
-      {unmapped > 0 ? (
-        <div className="container px-4 pb-16 pt-4 md:pb-24">
-          <p className="text-xs text-white/60">
+        {unmapped > 0 && (
+          <p className="mt-3 text-xs text-muted-foreground">
             {unmapped} listing{unmapped === 1 ? "" : "s"} not yet mapped — add coordinates in listing settings.
           </p>
-        </div>
-      ) : (
-        <div className="pb-16 md:pb-24" />
-      )}
+        )}
+      </div>
     </section>
   );
 };
