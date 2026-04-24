@@ -185,16 +185,21 @@ export const ExploreCoast = ({ businesses }: Props) => {
         </div>
       </div>
 
-      {/* Edge-to-edge map — no rounded corners, no border */}
-      <div className="relative h-[420px] w-full md:h-[560px]">
-        {!ready && (
-          <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0B1215]">
-            <div className="flex items-center gap-2 text-sm text-white/70">
-              <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
+      {/* Inset portal — rounded-[3rem] with 8px border matching section bg */}
+      <div className="container px-4">
+        <div
+          className="relative h-[420px] w-full overflow-hidden rounded-[3rem] md:h-[560px]"
+          style={{ border: "8px solid #0B1215", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.06)" }}
+        >
+          {!ready && (
+            <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0B1215]">
+              <div className="flex items-center gap-2 text-sm text-white/70">
+                <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
+              </div>
             </div>
-          </div>
-        )}
-        <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
+          )}
+          <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
+        </div>
       </div>
 
       {unmapped > 0 ? (
