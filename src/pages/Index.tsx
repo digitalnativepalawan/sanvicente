@@ -176,7 +176,13 @@ const Index = () => {
       </section>
 
       {/* FEATURED — Bento grid (featured items span 2 cols, others span 1) */}
-      <section className="border-y border-border bg-sand/40">
+      <section className="relative overflow-hidden border-y border-border bg-sand/40">
+        {/* Parallax decorative blob */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 top-0 h-[500px] w-[500px] rounded-full bg-primary/10 blur-3xl will-change-transform"
+          style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
+        />
         <div className="container px-4 py-16 md:py-[100px]">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
