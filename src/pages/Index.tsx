@@ -82,16 +82,17 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* HERO — full-bleed cinematic photo */}
+      {/* HERO — full-bleed cinematic photo with parallax. Extends behind the transparent header. */}
       <section
-        className="relative w-full overflow-hidden"
+        className="relative -mt-20 w-full overflow-hidden md:-mt-24"
         style={{ minHeight: "70vh" }}
       >
-        <div className="absolute inset-0 md:min-h-[90vh]">
+        <div className="absolute inset-0 md:min-h-[100vh]">
           <img
             src={heroImage}
             alt="Long Beach San Vicente Palawan at sunset"
-            className="h-full w-full object-cover"
+            className="h-[120%] w-full object-cover will-change-transform"
+            style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.05)` }}
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -100,44 +101,48 @@ const Index = () => {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.65) 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.75) 100%)",
             }}
           />
         </div>
 
-        <div className="relative flex min-h-[70vh] items-center justify-center md:min-h-[90vh]">
-          <div className="container px-4 py-16 text-center text-white md:py-24">
+        <div className="relative flex min-h-[90vh] items-center justify-center md:min-h-[100vh]">
+          <div className="container px-4 pb-20 pt-32 text-center text-white md:pb-28 md:pt-40">
             <HeroLogo />
 
-            <h1 className="font-bold leading-[1.02] text-white text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
-              <span className="block text-[3.25rem] tracking-[-0.02em] md:text-[5rem]">
+            <h1 className="font-black leading-[0.95] text-white text-balance tracking-tighter [text-shadow:0_2px_28px_rgba(0,0,0,0.5)]">
+              <span className="block text-6xl md:text-[6rem] lg:text-[7rem]">
                 San Vicente
               </span>
-              <span className="mt-1 block text-[1.5rem] italic font-semibold md:text-[2rem]" style={{ color: "#10B981" }}>
+              <span
+                className="mt-2 block text-2xl italic font-semibold md:text-[2.25rem]"
+                style={{ color: "hsl(var(--primary))" }}
+              >
                 slowly.
               </span>
             </h1>
 
-            <p className="mx-auto mt-5 max-w-[600px] text-base leading-relaxed text-white/85 md:text-[1.1rem]">
+            <p className="mx-auto mt-6 max-w-[600px] text-base leading-relaxed text-white/85 md:text-[1.1rem]">
               A locally curated directory of resorts, restaurants, tours, and hidden gems along Palawan's legendary 14-km Long Beach.
             </p>
 
-            <div className="mx-auto mt-8 w-full max-w-[600px]">
+            {/* Floating glass search card with high-elevation shadow */}
+            <div className="mx-auto mt-10 w-full max-w-[640px]">
               <SearchBar variant="hero-dark" />
             </div>
 
-            {/* Stats — white text, white/30 dividers */}
-            <dl className="mx-auto mt-10 flex max-w-2xl items-center justify-center divide-x divide-white/30">
+            {/* Stats */}
+            <dl className="mx-auto mt-12 flex max-w-2xl items-center justify-center divide-x divide-white/30">
               <div className="flex-1 px-4">
-                <dd className="text-2xl font-bold text-white md:text-3xl">{totalListings}+</dd>
+                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">{totalListings}+</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Listings</dt>
               </div>
               <div className="flex-1 px-4">
-                <dd className="text-2xl font-bold text-white md:text-3xl">{CATEGORIES.length}</dd>
+                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">{CATEGORIES.length}</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Categories</dt>
               </div>
               <div className="flex-1 px-4">
-                <dd className="text-2xl font-bold text-white md:text-3xl">14km</dd>
+                <dd className="text-3xl font-black tracking-tight text-white md:text-4xl">14km</dd>
                 <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Long Beach</dt>
               </div>
             </dl>
@@ -145,38 +150,39 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CATEGORIES — 1/2/4 grid, 24px gap */}
-      <section className="container px-4 py-12 md:py-[80px]">
-        <div className="mb-10 flex items-end justify-between gap-4">
+      {/* CATEGORIES — spacious gutters, staggered reveal */}
+      <section className="container px-4 py-16 md:py-[100px]">
+        <div className="mb-12 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Browse</p>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Find what you need</h2>
+            <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Find what you need</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURED_CATEGORY_ORDER
             .map((slug) => CATEGORIES.find((c) => c.slug === slug))
             .filter((c): c is NonNullable<typeof c> => !!c && (counts[c.slug] ?? 0) > 0)
-            .map((c) => (
-              <FeaturedCategoryCard
-                key={c.slug}
-                to={`/category/${c.slug}`}
-                label={c.label}
-                count={counts[c.slug] ?? 0}
-                image={categoryImages[c.slug] || FEATURED_CATEGORY_IMAGES[c.slug]}
-              />
+            .map((c, i) => (
+              <RevealCard key={c.slug} delayMs={i * 90}>
+                <FeaturedCategoryCard
+                  to={`/category/${c.slug}`}
+                  label={c.label}
+                  count={counts[c.slug] ?? 0}
+                  image={categoryImages[c.slug] || FEATURED_CATEGORY_IMAGES[c.slug]}
+                />
+              </RevealCard>
             ))}
         </div>
       </section>
 
-      {/* FEATURED — horizontal carousel on mobile, grid on desktop */}
-      <section className="border-t border-border bg-secondary/30">
-        <div className="container px-4 py-12 md:py-[80px]">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      {/* FEATURED — Bento grid (featured items span 2 cols, others span 1) */}
+      <section className="border-y border-border bg-sand/40">
+        <div className="container px-4 py-16 md:py-[100px]">
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Featured listings</h2>
-              <p className="mt-2 max-w-md text-muted-foreground">
+              <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Featured listings</h2>
+              <p className="mt-3 max-w-md text-muted-foreground">
                 Verified, top-rated places across San Vicente — handpicked by our local team.
               </p>
             </div>
@@ -188,18 +194,21 @@ const Index = () => {
             </Link>
           </div>
 
-          {/* Snap-scroll rail (mobile carousel; desktop shows multiple) */}
-          <div className="-mx-4 px-4">
-            <div className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
-              {featured.map((b, i) => (
-                <div
+          {/* Bento grid — first item spans 2 cols on lg, rest span 1. Total 6 cells across 4 cols. */}
+          <div className="grid auto-rows-[1fr] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {featured.slice(0, 7).map((b, i) => {
+              // Featured items in positions 0 and 5 span 2 columns on lg
+              const span2 = i === 0 || i === 5;
+              return (
+                <RevealCard
                   key={b.id}
-                  className="snap-start shrink-0 basis-[85%] sm:basis-[45%] md:basis-[32%] lg:basis-[24%]"
+                  delayMs={i * 80}
+                  className={span2 ? "lg:col-span-2" : ""}
                 >
                   <BusinessCard business={b} priority={i < 3} />
-                </div>
-              ))}
-            </div>
+                </RevealCard>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -207,34 +216,35 @@ const Index = () => {
       {/* EXPLORE THE COAST — interactive map */}
       <ExploreCoast businesses={visible} />
 
-
-      <section className="container px-4 py-12 md:py-[80px]">
-        <div className="mb-10 flex items-end justify-between gap-4">
+      <section className="container px-4 py-16 md:py-[100px]">
+        <div className="mb-12 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Fresh</p>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Recently added</h2>
+            <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Recently added</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {recent.map((b) => (
-            <BusinessCard key={b.id} business={b} />
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {recent.map((b, i) => (
+            <RevealCard key={b.id} delayMs={i * 80}>
+              <BusinessCard business={b} />
+            </RevealCard>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="container px-4 pb-16 md:pb-[80px]">
-        <div className="relative overflow-hidden rounded-3xl gradient-ocean p-8 text-primary-foreground shadow-elegant md:p-14">
+      <section className="container px-4 pb-20 md:pb-[100px]">
+        <div className="relative overflow-hidden rounded-[2rem] gradient-ocean p-8 text-primary-foreground shadow-elegant md:p-16">
           <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            <h2 className="text-4xl font-black tracking-tighter text-balance md:text-5xl">
               Own a business in San Vicente?
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-primary-foreground/85">
+            <p className="mx-auto mt-4 max-w-lg text-primary-foreground/85">
               Get discovered by thousands of travelers. List your business for free and reach the right audience.
             </p>
             <Link
               to="/list-your-business"
-              className="mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-primary shadow-soft transition-smooth hover:scale-[1.02]"
+              className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-primary shadow-soft transition-smooth hover:scale-[1.02]"
             >
               List your business <ArrowRight className="h-4 w-4" />
             </Link>
