@@ -20,10 +20,10 @@ export const Header = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         scrolled || open
-          ? "border-b border-border/60 bg-white/70 backdrop-blur-xl shadow-soft"
-          : "border-b border-transparent bg-transparent"
+          ? "border-b border-border/60 bg-white/75 shadow-soft"
+          : "border-b border-white/10 bg-white/10"
       }`}
     >
       <div className="container flex h-20 items-center justify-between gap-4 px-4 md:h-24">
