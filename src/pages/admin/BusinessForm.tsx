@@ -249,13 +249,13 @@ const BusinessForm = () => {
           <section className="rounded-3xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-lg font-bold">Cover photo</h2>
             <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-muted">
-              <img src={form.image} alt="Cover preview" className="aspect-[4/3] w-full object-cover" />
+              <img src={getBusinessImage(form)} alt="Cover preview" className="aspect-[4/3] w-full object-cover" />
             </div>
             <input ref={fileRef} type="file" accept="image/*" hidden onChange={onImage} />
             <Button type="button" variant="outline" className="mt-3 h-11 w-full rounded-2xl" onClick={() => fileRef.current?.click()}>
               <ImagePlus className="mr-1.5 h-4 w-4" />Upload photo
             </Button>
-            <p className="mt-2 text-xs text-muted-foreground">JPG/PNG up to 3 MB. Stored locally for now.</p>
+            <p className="mt-2 text-xs text-muted-foreground">JPG/PNG up to 3 MB. The uploaded cover photo is used throughout the site.</p>
           </section>
 
           <section className="rounded-3xl border border-border bg-card p-6 shadow-soft">

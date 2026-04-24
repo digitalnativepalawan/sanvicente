@@ -159,7 +159,7 @@ const AdminDashboard = () => {
           <ul className="mt-4 divide-y divide-border">
             {top.map((b) => (
               <li key={b.id} className="flex items-center gap-3 py-3">
-                <img src={b.image} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" loading="lazy" />
+                <img src={getBusinessImage(b)} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" loading="lazy" />
                 <div className="min-w-0 flex-1">
                   <Link to={`/admin/businesses/${b.id}/edit`} className="block truncate font-semibold hover:underline">
                     {b.name}

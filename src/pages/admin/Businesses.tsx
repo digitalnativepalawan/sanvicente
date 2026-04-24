@@ -88,7 +88,7 @@ const AdminBusinesses = () => {
             {filtered.map((b) => (
               <li key={b.id} className="rounded-2xl border border-border bg-card p-4 shadow-soft">
                 <div className="flex items-start gap-3">
-                  <img src={b.image} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" loading="lazy" />
+                  <img src={getBusinessImage(b)} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" loading="lazy" />
                   <div className="min-w-0 flex-1">
                     <p className="flex items-center gap-1 truncate font-semibold">
                       {b.name}
@@ -148,7 +148,7 @@ const AdminBusinesses = () => {
                   <tr key={b.id} className="border-b border-border last:border-0 hover:bg-secondary/30">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <img src={b.image} alt="" className="h-10 w-10 rounded-lg object-cover" loading="lazy" />
+                        <img src={getBusinessImage(b)} alt="" className="h-10 w-10 rounded-lg object-cover" loading="lazy" />
                         <div className="min-w-0">
                           <p className="flex items-center gap-1 font-semibold">
                             {b.name}
