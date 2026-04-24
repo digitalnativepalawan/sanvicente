@@ -5,7 +5,7 @@ import { MobileMapFab } from "./MobileMapFab";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-background">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
