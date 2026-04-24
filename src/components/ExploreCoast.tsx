@@ -151,18 +151,20 @@ export const ExploreCoast = ({ businesses }: Props) => {
   }, [visible, ready, navigate]);
 
   return (
-    <section className="bg-[#0F172A] text-white">
-      <div className="container px-4 py-12 md:py-20">
-        <div className="mb-6 max-w-2xl">
+    <section className="bg-[#0B1215] text-white">
+      <div className="container px-4 pt-16 md:pt-24">
+        <div className="mb-8 max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Explore</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Explore the Coast</h2>
-          <p className="mt-3 text-sm text-white/70 md:text-base">
+          <h2 className="mt-3 font-display text-5xl font-black tracking-tighter text-balance md:text-6xl">
+            Explore the Coast
+          </h2>
+          <p className="mt-4 text-sm text-white/70 md:text-base">
             {mapped.length} places along 14km of Long Beach. Click any pin to see details.
           </p>
         </div>
 
         {/* Filter chips */}
-        <div className="no-scrollbar -mx-4 mb-5 flex gap-2 overflow-x-auto px-4 pb-2">
+        <div className="no-scrollbar -mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-2">
           {FILTERS.map((f) => {
             const active = filter === f.slug;
             return (
@@ -181,24 +183,29 @@ export const ExploreCoast = ({ businesses }: Props) => {
             );
           })}
         </div>
+      </div>
 
-        <div className="relative h-[400px] overflow-hidden rounded-2xl border border-white/10 md:h-[500px]">
-          {!ready && (
-            <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0F172A]">
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
-              </div>
+      {/* Edge-to-edge map — no rounded corners, no border */}
+      <div className="relative h-[420px] w-full md:h-[560px]">
+        {!ready && (
+          <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0B1215]">
+            <div className="flex items-center gap-2 text-sm text-white/70">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
             </div>
-          )}
-          <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
-        </div>
+          </div>
+        )}
+        <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
+      </div>
 
-        {unmapped > 0 && (
-          <p className="mt-3 text-xs text-white/60">
+      {unmapped > 0 ? (
+        <div className="container px-4 pb-16 pt-4 md:pb-24">
+          <p className="text-xs text-white/60">
             {unmapped} listing{unmapped === 1 ? "" : "s"} not yet mapped — add coordinates in listing settings.
           </p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="pb-16 md:pb-24" />
+      )}
     </section>
   );
 };
