@@ -73,6 +73,56 @@ export type Database = {
           },
         ]
       }
+      business_submissions: {
+        Row: {
+          admin_notes: string | null
+          approved_business_id: string | null
+          created_at: string | null
+          id: string
+          owner_email: string
+          owner_message: string | null
+          owner_name: string
+          owner_phone: string
+          proposed_data: Json
+          reviewed_at: string | null
+          status: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          approved_business_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_email: string
+          owner_message?: string | null
+          owner_name: string
+          owner_phone: string
+          proposed_data?: Json
+          reviewed_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          approved_business_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_email?: string
+          owner_message?: string | null
+          owner_name?: string
+          owner_phone?: string
+          proposed_data?: Json
+          reviewed_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_submissions_approved_business_id_fkey"
+            columns: ["approved_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses: {
         Row: {
           address: string
@@ -96,12 +146,14 @@ export type Database = {
           latitude: number | null
           listing_tier: string
           longitude: number | null
+          menu_images: Json
           name: string
           opening_hours: Json
           phone: string | null
           price_range: string
           rating: number
           review_count: number
+          room_types: Json
           services: Json
           short_description: string
           slug: string
@@ -132,12 +184,14 @@ export type Database = {
           latitude?: number | null
           listing_tier?: string
           longitude?: number | null
+          menu_images?: Json
           name: string
           opening_hours?: Json
           phone?: string | null
           price_range?: string
           rating?: number
           review_count?: number
+          room_types?: Json
           services?: Json
           short_description?: string
           slug: string
@@ -168,12 +222,14 @@ export type Database = {
           latitude?: number | null
           listing_tier?: string
           longitude?: number | null
+          menu_images?: Json
           name?: string
           opening_hours?: Json
           phone?: string | null
           price_range?: string
           rating?: number
           review_count?: number
+          room_types?: Json
           services?: Json
           short_description?: string
           slug?: string
