@@ -50,6 +50,10 @@ export default {
           DEFAULT: "hsl(var(--sand))",
           foreground: "hsl(var(--sand-foreground))",
         },
+        midnight: {
+          DEFAULT: "hsl(var(--midnight))",
+          foreground: "hsl(var(--midnight-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
