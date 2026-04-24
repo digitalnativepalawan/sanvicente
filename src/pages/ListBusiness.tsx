@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, FormEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Send } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -8,14 +8,28 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CATEGORIES } from "@/data/categories";
-import { useBusinessBySlug, slugify } from "@/data/businessStore";
+import { slugify } from "@/data/businessStore";
 import { useToast } from "@/hooks/use-toast";
-import { submitClaim } from "@/lib/claims";
+import { submitListing } from "@/lib/submissions";
 import { MultiImageUpload } from "@/components/MultiImageUpload";
 import { RoomTypesEditor } from "@/components/RoomTypesEditor";
 import type { Business, Category, PriceRange } from "@/types/business";
 
 type FormState = Omit<Business, "id" | "createdAt" | "rating" | "reviewCount" | "viewCount">;
+
+const empty: FormState = {
+  name: "", slug: "", category: "restaurants", subcategory: "",
+  phone: "", email: "", website: "", facebook: "", instagram: "",
+  address: "", barangay: "", googleMapsLink: "",
+  description: "", shortDescription: "",
+  services: [], amenities: [],
+  image: "", images: [], menuImages: [], roomTypes: [],
+  priceRange: "₱₱",
+  openingHours: {
+    mon: "", tue: "", wed: "", thu: "", fri: "", sat: "", sun: "",
+  },
+  isFeatured: false, isVerified: false, isActive: true, listingTier: "free",
+};
 
 const days: { key: keyof FormState["openingHours"]; label: string }[] = [
   { key: "mon", label: "Mon" }, { key: "tue", label: "Tue" }, { key: "wed", label: "Wed" },
@@ -25,52 +39,21 @@ const days: { key: keyof FormState["openingHours"]; label: string }[] = [
 
 const MENU_CATEGORIES: Category[] = ["restaurants", "resorts", "tours", "shops"];
 
-const ClaimBusiness = () => {
-  const { slug = "" } = useParams();
+const ListBusiness = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const business = useBusinessBySlug(slug);
-
-  const initial = useMemo<FormState | null>(() => {
-    if (!business) return null;
-    const { id, createdAt, rating, reviewCount, viewCount, ...rest } = business;
-    return { ...rest, menuImages: rest.menuImages ?? [], roomTypes: rest.roomTypes ?? [] } as FormState;
-  }, [business]);
-
-  const [form, setForm] = useState<FormState | null>(initial);
+  const [form, setForm] = useState<FormState>(empty);
   const [servicesText, setServicesText] = useState("");
   const [amenitiesText, setAmenitiesText] = useState("");
   const [owner, setOwner] = useState({ name: "", email: "", phone: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    document.title = business ? `Claim ${business.name} | San Vicente Directory` : "Claim business";
-  }, [business?.name]);
+    document.title = "List your business | San Vicente Directory";
+  }, []);
 
-  useEffect(() => {
-    if (initial) {
-      setForm(initial);
-      setServicesText((initial.services ?? []).join(", "));
-      setAmenitiesText((initial.amenities ?? []).join(", "));
-    }
-  }, [initial]);
-
-  if (!business || !form) {
-    return (
-      <Layout>
-        <div className="container px-4 py-24 text-center">
-          <h1 className="font-display text-3xl font-bold">Business not found</h1>
-          <Link to="/" className="mt-4 inline-block text-primary hover:underline">Back home</Link>
-        </div>
-      </Layout>
-    );
-  }
-
-  const update = <K extends keyof FormState>(k: K, v: FormState[K]) =>
-    setForm((f) => (f ? { ...f, [k]: v } : f));
-
-  const setGallery = (images: string[]) =>
-    setForm((f) => f ? ({ ...f, images, image: images[0] ?? f.image ?? "" }) : f);
+  const update = <K extends keyof FormState>(k: K, v: FormState[K]) => setForm((f) => ({ ...f, [k]: v }));
+  const setGallery = (images: string[]) => setForm((f) => ({ ...f, images, image: images[0] ?? "" }));
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -86,21 +69,20 @@ const ClaimBusiness = () => {
     const services = servicesText.split(",").map((s) => s.trim()).filter(Boolean);
     const amenities = amenitiesText.split(",").map((s) => s.trim()).filter(Boolean);
     const images = (form.images ?? []).slice(0, 6);
-    const cover = images[0] ?? form.image ?? "";
+    const cover = images[0] ?? "";
     const proposed = { ...form, services, amenities, slug: form.slug || slugify(form.name), images, image: cover };
 
     setSubmitting(true);
     try {
-      await submitClaim({
-        businessId: business.id,
+      await submitListing({
         ownerName: owner.name.trim(),
         ownerEmail: owner.email.trim(),
         ownerPhone: owner.phone.trim(),
         ownerMessage: owner.message.trim() || undefined,
         proposedData: proposed,
       });
-      toast({ title: "Claim submitted", description: "Thanks! An admin will review your information shortly." });
-      navigate(`/business/${business.slug}`);
+      toast({ title: "Listing submitted!", description: "Thanks! An admin will review and publish your business shortly." });
+      navigate("/");
     } catch (err: any) {
       toast({ title: "Submission failed", description: err?.message ?? "Please try again.", variant: "destructive" });
     } finally {
@@ -114,13 +96,13 @@ const ClaimBusiness = () => {
   return (
     <Layout>
       <div className="container px-4 py-8 md:py-12">
-        <Link to={`/business/${business.slug}`} className="mb-2 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-4 w-4" /> Back to {business.name}
+        <Link to="/" className="mb-2 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" /> Back home
         </Link>
         <header className="mb-8">
-          <h1 className="font-display text-3xl font-bold md:text-4xl">Claim {business.name}</h1>
-          <p className="mt-2 text-muted-foreground">
-            Review the listing details below, update anything that's wrong, and tell us how to verify you. An admin will review and apply approved changes.
+          <h1 className="font-display text-3xl font-bold md:text-4xl">List your business</h1>
+          <p className="mt-2 max-w-2xl text-muted-foreground">
+            Add your business to the San Vicente Directory. Fill in the details below — an admin will review and publish your listing.
           </p>
         </header>
 
@@ -128,13 +110,13 @@ const ClaimBusiness = () => {
           <div className="space-y-6">
             {/* Owner info */}
             <section className="rounded-3xl border border-primary/30 bg-primary/5 p-6 shadow-soft">
-              <h2 className="font-display text-lg font-bold">Your contact details (owner)</h2>
-              <p className="mt-1 text-sm text-muted-foreground">We'll use this to verify ownership.</p>
+              <h2 className="font-display text-lg font-bold">Your contact details</h2>
+              <p className="mt-1 text-sm text-muted-foreground">We'll use this to reach you about your listing.</p>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2"><Label>Full name *</Label><Input value={owner.name} onChange={(e) => setOwner((o) => ({ ...o, name: e.target.value }))} className="mt-1.5 h-11" required maxLength={120} /></div>
                 <div><Label>Email *</Label><Input type="email" value={owner.email} onChange={(e) => setOwner((o) => ({ ...o, email: e.target.value }))} className="mt-1.5 h-11" required maxLength={255} /></div>
                 <div><Label>Phone *</Label><Input value={owner.phone} onChange={(e) => setOwner((o) => ({ ...o, phone: e.target.value }))} className="mt-1.5 h-11" required maxLength={40} /></div>
-                <div className="sm:col-span-2"><Label>Message to admin</Label><Textarea value={owner.message} onChange={(e) => setOwner((o) => ({ ...o, message: e.target.value }))} rows={3} className="mt-1.5" maxLength={1000} placeholder="Optional — anything that helps us verify you own this business." /></div>
+                <div className="sm:col-span-2"><Label>Message to admin</Label><Textarea value={owner.message} onChange={(e) => setOwner((o) => ({ ...o, message: e.target.value }))} rows={3} className="mt-1.5" maxLength={1000} placeholder="Optional notes for the reviewer." /></div>
               </div>
             </section>
 
@@ -143,7 +125,7 @@ const ClaimBusiness = () => {
               <h2 className="font-display text-lg font-bold">Photos</h2>
               <p className="mt-1 text-sm text-muted-foreground">First photo is the cover. Up to 6 images, JPG/PNG, 3 MB each.</p>
               <div className="mt-4">
-                <MultiImageUpload value={form.images ?? []} onChange={setGallery} max={6} folder={`claim/${business.slug}`} />
+                <MultiImageUpload value={form.images ?? []} onChange={setGallery} max={6} folder="submission" />
               </div>
             </section>
 
@@ -159,7 +141,7 @@ const ClaimBusiness = () => {
                     <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c.slug} value={c.slug}>{c.label}</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
-                <div><Label>Subcategory</Label><Input value={form.subcategory ?? ""} onChange={(e) => update("subcategory", e.target.value)} className="mt-1.5 h-11" /></div>
+                <div><Label>Subcategory</Label><Input value={form.subcategory ?? ""} onChange={(e) => update("subcategory", e.target.value)} className="mt-1.5 h-11" placeholder="e.g. Boutique Resort" /></div>
                 <div>
                   <Label>Price range</Label>
                   <Select value={form.priceRange} onValueChange={(v) => update("priceRange", v as PriceRange)}>
@@ -223,13 +205,13 @@ const ClaimBusiness = () => {
             {showMenu && (
               <section className="rounded-3xl border border-border bg-card p-6 shadow-soft">
                 <h2 className="font-display text-lg font-bold">Menu / brochure photos</h2>
-                <p className="mt-1 text-sm text-muted-foreground">Upload menu photos so guests can see what you offer. Up to 10 images.</p>
+                <p className="mt-1 text-sm text-muted-foreground">Upload menu, brochure or price list photos. Up to 10 images.</p>
                 <div className="mt-4">
                   <MultiImageUpload
                     value={form.menuImages ?? []}
                     onChange={(menuImages) => update("menuImages", menuImages)}
                     max={10}
-                    folder={`claim/${business.slug}/menu`}
+                    folder="submission/menu"
                     showCoverBadge={false}
                     label="Menu photos"
                   />
@@ -243,19 +225,18 @@ const ClaimBusiness = () => {
                 <h2 className="font-display text-lg font-bold">Room types</h2>
                 <p className="mt-1 text-sm text-muted-foreground">Add each room category with photos, price, and capacity.</p>
                 <div className="mt-4">
-                  <RoomTypesEditor value={form.roomTypes ?? []} onChange={(roomTypes) => update("roomTypes", roomTypes)} folder={`claim/${business.slug}/rooms`} />
+                  <RoomTypesEditor value={form.roomTypes ?? []} onChange={(roomTypes) => update("roomTypes", roomTypes)} folder="submission/rooms" />
                 </div>
               </section>
             )}
           </div>
 
-          {/* Sidebar */}
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <Button type="submit" disabled={submitting} className="h-12 w-full rounded-2xl gradient-ocean text-primary-foreground">
-              <Send className="mr-1.5 h-4 w-4" /> {submitting ? "Submitting…" : "Submit claim for review"}
+              <Send className="mr-1.5 h-4 w-4" /> {submitting ? "Submitting…" : "Submit for review"}
             </Button>
             <p className="text-center text-xs text-muted-foreground">
-              By submitting, you confirm you're the owner or authorized representative.
+              By submitting, you confirm the information is accurate and you have permission to list this business.
             </p>
           </aside>
         </form>
@@ -264,4 +245,4 @@ const ClaimBusiness = () => {
   );
 };
 
-export default ClaimBusiness;
+export default ListBusiness;
