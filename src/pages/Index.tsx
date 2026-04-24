@@ -3,12 +3,24 @@ import { Link } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SearchBar } from "@/components/SearchBar";
-import { CategoryCard } from "@/components/CategoryCard";
+import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import hero from "@/assets/hero-sanvicente.jpg";
+import catResorts from "@/assets/cat-resorts.jpg";
+import catRestaurants from "@/assets/cat-restaurants.jpg";
+import catTours from "@/assets/cat-tours.jpg";
+import catTransport from "@/assets/cat-transport.jpg";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+
+const FEATURED_CATEGORY_IMAGES: Record<string, string> = {
+  resorts: catResorts,
+  restaurants: catRestaurants,
+  tours: catTours,
+  transport: catTransport,
+};
+const FEATURED_CATEGORY_ORDER = ["resorts", "restaurants", "tours", "transport"];
 
 const HeroLogo = () => {
   const { settings } = useSiteSettings();
@@ -101,7 +113,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* Featured Categories */}
       <section className="container px-4 py-16 md:py-24">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
@@ -109,10 +121,19 @@ const Index = () => {
             <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Find what you need</h2>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-6">
-          {CATEGORIES.map((c) => (
-            <CategoryCard key={c.slug} category={c} count={counts[c.slug] ?? 0} />
-          ))}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURED_CATEGORY_ORDER
+            .map((slug) => CATEGORIES.find((c) => c.slug === slug))
+            .filter((c): c is NonNullable<typeof c> => !!c && (counts[c.slug] ?? 0) > 0)
+            .map((c) => (
+              <FeaturedCategoryCard
+                key={c.slug}
+                to={`/category/${c.slug}`}
+                label={c.label}
+                count={counts[c.slug] ?? 0}
+                image={FEATURED_CATEGORY_IMAGES[c.slug]}
+              />
+            ))}
         </div>
       </section>
 
