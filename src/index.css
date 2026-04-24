@@ -225,8 +225,23 @@ button:not(:disabled):active,
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Dark look for OSM tiles inside the Explore the Coast section.
-   Filter only the tile pane so pins, popups, controls and attribution stay normal. */
-.explore-coast-map .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.92) saturate(0.7);
+/* Explore the Coast uses CartoDB Dark Matter tiles directly — no filter needed.
+   Make popups match the dark aesthetic. */
+.explore-coast-map .leaflet-popup-content-wrapper {
+  background: #0B1215;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
 }
+.explore-coast-map .leaflet-popup-tip { background: #0B1215; }
+.explore-coast-map .leaflet-control-attribution {
+  background: rgba(11, 18, 21, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+}
+.explore-coast-map .leaflet-control-attribution a { color: rgba(255, 255, 255, 0.85); }
+.explore-coast-map .leaflet-bar a {
+  background: #0B1215;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.explore-coast-map .leaflet-bar a:hover { background: #16222A; }
