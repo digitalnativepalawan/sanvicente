@@ -8,6 +8,21 @@ import { BusinessCard } from "@/components/BusinessCard";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import hero from "@/assets/hero-sanvicente.jpg";
+import { useSiteSettings } from "@/hooks/use-site-settings";
+
+const HeroLogo = () => {
+  const { settings } = useSiteSettings();
+  return (
+    <img
+      src={settings.logo_url}
+      alt={`${settings.site_name} logo`}
+      style={{ height: `${settings.logo_size_hero}px` }}
+      className="mx-auto mb-6 w-auto"
+      loading="eager"
+      decoding="async"
+    />
+  );
+};
 
 const Index = () => {
   useEffect(() => {
