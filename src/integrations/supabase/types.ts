@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      business_claims: {
+        Row: {
+          admin_notes: string | null
+          business_id: string | null
+          created_at: string | null
+          id: string
+          owner_email: string
+          owner_name: string
+          owner_phone: string | null
+          reviewed_at: string | null
+          status: string | null
+          updated_business_data: Json
+          wants_order_online: boolean | null
+          wants_transport: boolean | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id: string
+          owner_email: string
+          owner_name: string
+          owner_phone?: string | null
+          reviewed_at?: string | null
+          status?: string | null
+          updated_business_data: Json
+          wants_order_online?: boolean | null
+          wants_transport?: boolean | null
+        }
+        Update: {
+          admin_notes?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_email?: string
+          owner_name?: string
+          owner_phone?: string | null
+          reviewed_at?: string | null
+          status?: string | null
+          updated_business_data?: Json
+          wants_order_online?: boolean | null
+          wants_transport?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_claims_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses: {
         Row: {
           address: string
