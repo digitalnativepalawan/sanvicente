@@ -18,7 +18,8 @@ export const Header = () => {
           <img
             src={settings.logo_url}
             alt={`${settings.site_name} logo`}
-            className="h-auto w-[80px] max-w-full object-contain md:w-[120px]"
+            style={{ height: `${settings.logo_size_header}px` }}
+            className="w-auto max-w-full object-contain"
             loading="eager"
             decoding="async"
           />
