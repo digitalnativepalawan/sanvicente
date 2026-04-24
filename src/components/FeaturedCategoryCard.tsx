@@ -11,7 +11,7 @@ export const FeaturedCategoryCard = ({ to, label, count, image }: Props) => {
   return (
     <Link
       to={to}
-      className="group relative block aspect-[4/5] overflow-hidden rounded-2xl border border-border transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-glow sm:aspect-square"
+      className="group relative block aspect-[4/5] overflow-hidden rounded-3xl border border-border transition-all duration-500 hover:-translate-y-1.5 hover:border-primary hover:shadow-elegant sm:aspect-square"
     >
       <img
         src={image}
