@@ -187,7 +187,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* RECENTLY ADDED — 1/2/4 grid */}
+      {/* EXPLORE THE COAST — interactive map */}
+      <ExploreCoast businesses={visible} />
+
+
       <section className="container px-4 py-12 md:py-[80px]">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
