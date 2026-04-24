@@ -92,13 +92,14 @@
     font-feature-settings: 'cv11', 'ss01';
   }
 
-  h1, h2, h3, .font-display {
+  .font-display {
     font-family: var(--font-display);
     font-optical-sizing: auto;
     font-variation-settings: 'opsz' 144, 'SOFT' 30;
-    letter-spacing: -0.035em;
-    line-height: 0.95;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
   }
+  h1, h2, h3 { letter-spacing: -0.015em; }
 }
 
 @layer utilities {
