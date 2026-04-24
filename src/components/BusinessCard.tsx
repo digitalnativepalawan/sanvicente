@@ -23,7 +23,7 @@ export const BusinessCard = ({ business, priority }: Props) => {
 
   return (
     <article
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-elegant"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-elegant"
     >
       {/* 16:9 image */}
       <Link
