@@ -32,6 +32,10 @@
     --accent-foreground: 0 0% 100%;
     --accent-soft: 160 60% 95%;
 
+    /* Warm Sand #F5F5DC — soft surface */
+    --sand: 60 56% 91%;
+    --sand-foreground: 0 0% 7%;
+
     --destructive: 0 75% 52%;
     --destructive-foreground: 0 0% 100%;
 
