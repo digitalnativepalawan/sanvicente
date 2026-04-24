@@ -151,14 +151,14 @@ const Index = () => {
       </section>
 
       {/* CATEGORIES — spacious gutters, staggered reveal */}
-      <section className="container px-4 py-16 md:py-[100px]">
-        <div className="mb-12 flex items-end justify-between gap-4">
+      <section className="container px-4 py-24 md:py-[120px]">
+        <div className="mb-14 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Browse</p>
             <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Find what you need</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURED_CATEGORY_ORDER
             .map((slug) => CATEGORIES.find((c) => c.slug === slug))
             .filter((c): c is NonNullable<typeof c> => !!c && (counts[c.slug] ?? 0) > 0)
