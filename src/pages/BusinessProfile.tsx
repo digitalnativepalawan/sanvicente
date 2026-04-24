@@ -279,12 +279,18 @@ const BusinessProfile = () => {
                 </h2>
                 <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                   {business.menuImages!.map((url, i) => (
-                    <a key={i} href={url} target="_blank" rel="noopener noreferrer" download className="block overflow-hidden rounded-2xl border border-border bg-muted">
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => { setMenuIdx(i); setMenuOpen(true); }}
+                      className="block overflow-hidden rounded-2xl border border-border bg-muted"
+                      aria-label={`Open menu page ${i + 1}`}
+                    >
                       <img src={url} alt={`Menu page ${i + 1}`} loading="lazy" className="aspect-[3/4] w-full object-cover transition-smooth hover:scale-105" />
-                    </a>
+                    </button>
                   ))}
                 </div>
-                <p className="mt-2 text-xs text-muted-foreground">Tap any image to open or download.</p>
+                <p className="mt-2 text-xs text-muted-foreground">Tap any image to view full size.</p>
               </section>
             )}
             <section>
