@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, ListChecks, LogOut, Plus, Eye, Upload, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, ListChecks, LogOut, Eye, Upload, ShieldCheck, Inbox } from "lucide-react";
 import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
@@ -9,6 +9,7 @@ const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/businesses", label: "Businesses", icon: ListChecks, end: false },
   { to: "/admin/claims", label: "Claims", icon: ShieldCheck, end: false },
+  { to: "/admin/submissions", label: "Submissions", icon: Inbox, end: false },
   { to: "/admin/businesses/import", label: "Import KMZ", icon: Upload, end: true },
 ];
 
