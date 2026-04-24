@@ -131,9 +131,32 @@ export const BusinessCard = ({ business, priority }: Props) => {
           {business.shortDescription}
         </p>
 
+        {/* Vertical Quick Info — Price · Location · Features */}
+        <ul className="mt-1 space-y-1.5 text-[13px] text-foreground/85">
+          <li className="flex items-center gap-2">
+            <Wallet className="h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
+            <span className="truncate">
+              <span className="font-semibold text-foreground">{business.priceRange}</span>
+              <span className="text-muted-foreground"> · {priceLabel(business.priceRange).split(" — ")[0]}</span>
+            </span>
+          </li>
+          <li className="flex items-center gap-2">
+            <MapPin className="h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
+            <span className="truncate text-muted-foreground">{business.barangay || "San Vicente"}</span>
+          </li>
+          {business.amenities && business.amenities.length > 0 && (
+            <li className="flex items-start gap-2">
+              <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
+              <span className="line-clamp-1 text-muted-foreground">
+                {business.amenities.slice(0, 3).join(" · ")}
+              </span>
+            </li>
+          )}
+        </ul>
+
         <Link
           to={`/business/${business.slug}`}
-          className="mt-auto inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-border bg-background text-sm font-semibold text-foreground transition-all hover:border-primary hover:bg-primary hover:text-primary-foreground"
+          className="mt-auto inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-border bg-background text-sm font-semibold text-foreground transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-primary hover:bg-primary hover:text-primary-foreground"
         >
           View Details <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </Link>
