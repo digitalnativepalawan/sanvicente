@@ -39,6 +39,8 @@ const HeroLogo = () => {
 };
 
 const Index = () => {
+  const [scrollY, setScrollY] = useState(0);
+
   useEffect(() => {
     document.title = "San Vicente Palawan Directory | Resorts, Tours & Local Businesses";
     const desc = "Discover the best resorts, restaurants, tours, and local businesses in San Vicente, Palawan — home of the legendary 14-km Long Beach.";
@@ -49,6 +51,20 @@ const Index = () => {
       document.head.appendChild(meta);
     }
     meta.setAttribute("content", desc);
+  }, []);
+
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const businesses = useBusinesses();
