@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Star, BadgeCheck, ArrowRight, MapPin, Wallet, Sparkles } from "lucide-react";
+import { Heart, Star, BadgeCheck, MapPin, Wallet, Sparkles } from "lucide-react";
 import fallbackImage from "@/assets/biz-resort.jpg";
 import type { Business } from "@/types/business";
 import { useFavorites } from "@/hooks/use-favorites";
@@ -12,28 +12,43 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 interface Props {
   business: Business;
   priority?: boolean;
+  /** When true, the image uses a wide 21:9 aspect ratio (visual anchor) */
+  wide?: boolean;
 }
 
-export const BusinessCard = ({ business, priority }: Props) => {
+/**
+ * Spatial / "no-box" listing card.
+ * - Entire card is a single Link (whole area is the touch target)
+ * - Borderless: image floats with deep soft shadow, text below sits on the page surface
+ * - Floating glass title strip overlaps the image bottom edge
+ * - Monochromatic icon row replaces the old text feature list
+ */
+export const BusinessCard = ({ business, priority, wide = false }: Props) => {
   const { has, toggle } = useFavorites();
   const fav = has(business.id);
   const cat = CATEGORIES.find((c) => c.slug === business.category);
   const catColor = CATEGORY_COLORS[business.category];
   const hasRating = business.rating > 0;
+  const topAmenity = business.amenities?.[0];
 
   return (
-    <article className="group relative flex h-full flex-col gap-4">
-      {/* Floating image — borderless, large radius, soft expanding shadow */}
-      <Link
-        to={`/business/${business.slug}`}
-        className="relative block aspect-[4/3] overflow-hidden rounded-[2.5rem] bg-muted shadow-float transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 shadow-float-hover"
+    <Link
+      to={`/business/${business.slug}`}
+      aria-label={`View ${business.name}`}
+      className="group relative flex h-full flex-col transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 hover:scale-[1.02]"
+    >
+      {/* Floating image — borderless, large radius, deep soft shadow */}
+      <div
+        className={`relative overflow-hidden rounded-[2.5rem] bg-muted shadow-[0_22px_70px_4px_rgba(0,0,0,0.07)] transition-shadow duration-500 group-hover:shadow-[0_30px_90px_8px_rgba(0,0,0,0.12)] ${
+          wide ? "aspect-[21/9]" : "aspect-[4/3]"
+        }`}
       >
         <img
           src={getBusinessImage(business)}
           alt={business.name}
           loading={priority ? "eager" : "lazy"}
-          width={1280}
-          height={960}
+          width={wide ? 2100 : 1280}
+          height={wide ? 900 : 960}
           className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           onError={(event) => {
             const img = event.currentTarget;
@@ -42,6 +57,9 @@ export const BusinessCard = ({ business, priority }: Props) => {
             img.src = fallbackImage;
           }}
         />
+
+        {/* Subtle bottom gradient so the floating glass card is always readable */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
 
         {catColor && (
           <span
@@ -59,10 +77,12 @@ export const BusinessCard = ({ business, priority }: Props) => {
           </span>
         )}
 
+        {/* Favorite — stop propagation so it doesn't trigger the card link */}
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault();
+            e.stopPropagation();
             toggle(business.id);
           }}
           aria-label={fav ? "Remove from favorites" : "Add to favorites"}
@@ -70,21 +90,20 @@ export const BusinessCard = ({ business, priority }: Props) => {
         >
           <Heart className={`h-4 w-4 ${fav ? "fill-primary text-primary" : "text-foreground"}`} />
         </button>
-      </Link>
+      </div>
 
-      {/* Text directly on the page background — no card shell */}
-      <div className="flex flex-1 flex-col gap-2 px-1">
-        {/* Title + price row */}
+      {/* Floating glass title strip — overlaps image bottom edge */}
+      <div className="relative z-10 mx-4 -mt-10 rounded-[1.75rem] border border-white/50 bg-white/70 p-5 shadow-[0_10px_40px_-12px_rgba(0,0,0,0.15)] backdrop-blur-xl">
         <div className="flex items-start justify-between gap-3">
-          <Link
-            to={`/business/${business.slug}`}
-            className="flex items-start gap-1.5 text-[18px] font-bold leading-tight text-foreground transition-smooth hover:text-primary"
-          >
-            <span className="line-clamp-1">{business.name}</span>
+          <h3 className="flex items-start gap-1.5 text-[17px] font-bold leading-tight tracking-tight text-foreground text-balance">
+            <span className="line-clamp-2">{business.name}</span>
             {business.isVerified && (
               <Tooltip delayDuration={150}>
                 <TooltipTrigger asChild>
-                  <span className="mt-0.5 inline-flex shrink-0">
+                  <span
+                    className="mt-0.5 inline-flex shrink-0"
+                    onClick={(e) => e.preventDefault()}
+                  >
                     <BadgeCheck className="h-4 w-4 text-primary" aria-label="Verified" />
                   </span>
                 </TooltipTrigger>
@@ -93,71 +112,63 @@ export const BusinessCard = ({ business, priority }: Props) => {
                 </TooltipContent>
               </Tooltip>
             )}
-          </Link>
+          </h3>
 
-          <Tooltip delayDuration={150}>
-            <TooltipTrigger asChild>
-              <span className="shrink-0 cursor-help text-sm font-bold text-orange-500">
-                {business.priceRange}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="text-xs">
-              {priceLabel(business.priceRange)}
-            </TooltipContent>
-          </Tooltip>
+          {hasRating && (
+            <span className="flex shrink-0 items-center gap-1 text-sm font-semibold text-foreground">
+              <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" aria-hidden />
+              {business.rating.toFixed(1)}
+            </span>
+          )}
         </div>
 
-        {/* Rating row — only if rated */}
-        <div className="flex items-center justify-between gap-2 text-sm">
-          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+        {/* Category + monochromatic icon row */}
+        <div className="mt-3 flex items-center justify-between gap-3 text-[12px] text-muted-foreground">
+          <span className="truncate uppercase tracking-[0.12em]">
             {cat?.label.split(" ")[0] ?? business.category}
           </span>
-          {hasRating ? (
-            <span className="flex items-center gap-1 font-medium">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" aria-hidden />
-              {business.rating.toFixed(1)}
-              <span className="font-normal text-muted-foreground">({business.reviewCount})</span>
+
+          {/* Minimal monochromatic metadata icons */}
+          <div className="flex shrink-0 items-center gap-3">
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <span
+                  className="inline-flex items-center gap-1 text-foreground/70"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Wallet className="h-3.5 w-3.5" aria-hidden />
+                  <span className="font-semibold">{business.priceRange}</span>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                {priceLabel(business.priceRange)}
+              </TooltipContent>
+            </Tooltip>
+
+            <span className="inline-flex items-center gap-1 text-foreground/70">
+              <MapPin className="h-3.5 w-3.5" aria-hidden />
+              <span className="max-w-[80px] truncate">{business.barangay || "San Vicente"}</span>
             </span>
-          ) : (
-            <span className="text-xs italic text-muted-foreground/80">Be the first to review</span>
-          )}
+
+            {topAmenity && (
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <span
+                    className="inline-flex items-center gap-1 text-foreground/70"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden />
+                    <span className="max-w-[70px] truncate">{topAmenity}</span>
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="text-xs">
+                  {business.amenities.slice(0, 4).join(" · ")}
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </div>
         </div>
-
-        {/* Description */}
-        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-          {business.shortDescription}
-        </p>
-
-        {/* Vertical Quick Info — Price · Location · Features */}
-        <ul className="mt-1 space-y-1.5 text-[13px] text-foreground/85">
-          <li className="flex items-center gap-2">
-            <Wallet className="h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
-            <span className="truncate">
-              <span className="font-semibold text-foreground">{business.priceRange}</span>
-              <span className="text-muted-foreground"> · {priceLabel(business.priceRange).split(" — ")[0]}</span>
-            </span>
-          </li>
-          <li className="flex items-center gap-2">
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
-            <span className="truncate text-muted-foreground">{business.barangay || "San Vicente"}</span>
-          </li>
-          {business.amenities && business.amenities.length > 0 && (
-            <li className="flex items-start gap-2">
-              <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary/80" aria-hidden />
-              <span className="line-clamp-1 text-muted-foreground">
-                {business.amenities.slice(0, 3).join(" · ")}
-              </span>
-            </li>
-          )}
-        </ul>
-
-        <Link
-          to={`/business/${business.slug}`}
-          className="mt-auto inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full border border-border bg-background text-sm font-semibold text-foreground transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-primary hover:bg-primary hover:text-primary-foreground"
-        >
-          View Details <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-        </Link>
       </div>
-    </article>
+    </Link>
   );
 };
