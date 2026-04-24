@@ -5,12 +5,14 @@ import { Layout } from "@/components/Layout";
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
+import { ExploreCoast } from "@/components/ExploreCoast";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import catResorts from "@/assets/cat-resorts.jpg";
 import catRestaurants from "@/assets/cat-restaurants.jpg";
 import catTours from "@/assets/cat-tours.jpg";
 import catTransport from "@/assets/cat-transport.jpg";
+import heroImage from "@/assets/hero-san-vicente.jpg";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
 const FEATURED_CATEGORY_IMAGES: Record<string, string> = {
