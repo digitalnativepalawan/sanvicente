@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles, Cloud, CloudOff, Loader2, CheckCircle2 } from "lucide-react";
+import { Building2, Eye, MousePointerClick, Star, BadgeCheck, Plus, ListChecks, Sparkles, Cloud, CloudOff, Loader2, CheckCircle2, Settings as SettingsIcon, ShieldCheck, Inbox, Upload as UploadIcon, Image as ImageIcon } from "lucide-react";
 import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useBusinesses, analytics, businessStore, isCloudEnabled, setCloudEnabled } from "@/data/businessStore";
@@ -177,7 +177,37 @@ const AdminDashboard = () => {
         )}
       </section>
 
-      <section className="mt-6 grid gap-4 md:grid-cols-2">
+      {/* Site settings — prominent */}
+      <section className="mt-10">
+        <h2 className="font-display text-xl font-bold">Website settings</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Control your logo, header, footer, social links and copyright.</p>
+        <Link
+          to="/admin/settings"
+          className="group mt-4 flex flex-col gap-4 rounded-3xl border border-border bg-card p-6 shadow-soft transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card sm:flex-row sm:items-center"
+        >
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl gradient-ocean text-primary-foreground">
+            <SettingsIcon className="h-6 w-6" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h3 className="font-display text-lg font-bold">Site settings</h3>
+            <p className="text-sm text-muted-foreground">
+              Upload your logo, set logo sizes for header/footer/hero, edit social URLs, copyright, and footer links.
+            </p>
+            <ul className="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <li className="rounded-full bg-secondary px-2.5 py-1"><ImageIcon className="mr-1 inline h-3 w-3" />Logo &amp; sizes</li>
+              <li className="rounded-full bg-secondary px-2.5 py-1">Footer links</li>
+              <li className="rounded-full bg-secondary px-2.5 py-1">Social media</li>
+              <li className="rounded-full bg-secondary px-2.5 py-1">Contact &amp; copyright</li>
+            </ul>
+          </div>
+          <span className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">
+            Open settings
+          </span>
+        </Link>
+      </section>
+
+      {/* Quick actions */}
+      <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <Link
           to="/admin/businesses"
           className="group rounded-3xl border border-border bg-card p-6 shadow-soft transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card"
@@ -193,6 +223,30 @@ const AdminDashboard = () => {
           <Plus className="h-7 w-7 text-accent" />
           <h3 className="mt-3 font-display text-lg font-bold">Add a new business</h3>
           <p className="text-sm text-muted-foreground">Create a fresh listing with photos, hours, and details.</p>
+        </Link>
+        <Link
+          to="/admin/claims"
+          className="group rounded-3xl border border-border bg-card p-6 shadow-soft transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card"
+        >
+          <ShieldCheck className="h-7 w-7 text-primary" />
+          <h3 className="mt-3 font-display text-lg font-bold">Claim requests</h3>
+          <p className="text-sm text-muted-foreground">Review owner claims and approve verified ownership.</p>
+        </Link>
+        <Link
+          to="/admin/submissions"
+          className="group rounded-3xl border border-border bg-card p-6 shadow-soft transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card"
+        >
+          <Inbox className="h-7 w-7 text-accent" />
+          <h3 className="mt-3 font-display text-lg font-bold">New submissions</h3>
+          <p className="text-sm text-muted-foreground">Approve businesses submitted through "List your business".</p>
+        </Link>
+        <Link
+          to="/admin/businesses/import"
+          className="group rounded-3xl border border-border bg-card p-6 shadow-soft transition-smooth hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-card"
+        >
+          <UploadIcon className="h-7 w-7 text-primary" />
+          <h3 className="mt-3 font-display text-lg font-bold">Import KMZ</h3>
+          <p className="text-sm text-muted-foreground">Bulk-import businesses from a Google Maps KMZ export.</p>
         </Link>
       </section>
     </AdminLayout>
