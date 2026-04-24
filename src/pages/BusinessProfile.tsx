@@ -367,6 +367,21 @@ const BusinessProfile = () => {
           </section>
         )}
       </div>
+
+      <Lightbox
+        images={business.images ?? []}
+        open={galleryOpen}
+        onOpenChange={setGalleryOpen}
+        startIndex={galleryIdx}
+        alt={business.name}
+      />
+      <Lightbox
+        images={business.menuImages ?? []}
+        open={menuOpen}
+        onOpenChange={setMenuOpen}
+        startIndex={menuIdx}
+        alt={`${business.name} menu`}
+      />
     </Layout>
   );
 };
