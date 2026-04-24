@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { AdminAuthProvider } from "@/hooks/use-admin-auth";
+import { SiteSettingsProvider } from "@/hooks/use-site-settings";
 import { RequireAdmin } from "@/components/RequireAdmin";
 import Index from "./pages/Index.tsx";
 import Category from "./pages/Category.tsx";
@@ -19,6 +20,7 @@ import BusinessForm from "./pages/admin/BusinessForm.tsx";
 import ImportKmz from "./pages/admin/ImportKmz.tsx";
 import AdminClaims from "./pages/admin/Claims.tsx";
 import AdminSubmissions from "./pages/admin/Submissions.tsx";
+import AdminSettings from "./pages/admin/Settings.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -27,30 +29,33 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <AdminAuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/category/:slug" element={<Category />} />
-              <Route path="/business/:slug" element={<BusinessProfile />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/map" element={<MapView />} />
-              <Route path="/business/:slug/claim" element={<ClaimBusiness />} />
-              <Route path="/list-your-business" element={<ListBusiness />} />
-              <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
-              <Route path="/admin/claims" element={<RequireAdmin><AdminClaims /></RequireAdmin>} />
-              <Route path="/admin/submissions" element={<RequireAdmin><AdminSubmissions /></RequireAdmin>} />
-              <Route path="/admin/businesses" element={<RequireAdmin><AdminBusinesses /></RequireAdmin>} />
-              <Route path="/admin/businesses/new" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
-              <Route path="/admin/businesses/import" element={<RequireAdmin><ImportKmz /></RequireAdmin>} />
-              <Route path="/admin/businesses/:id/edit" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <SiteSettingsProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/category/:slug" element={<Category />} />
+                <Route path="/business/:slug" element={<BusinessProfile />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/map" element={<MapView />} />
+                <Route path="/business/:slug/claim" element={<ClaimBusiness />} />
+                <Route path="/list-your-business" element={<ListBusiness />} />
+                <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+                <Route path="/admin/claims" element={<RequireAdmin><AdminClaims /></RequireAdmin>} />
+                <Route path="/admin/submissions" element={<RequireAdmin><AdminSubmissions /></RequireAdmin>} />
+                <Route path="/admin/businesses" element={<RequireAdmin><AdminBusinesses /></RequireAdmin>} />
+                <Route path="/admin/businesses/new" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
+                <Route path="/admin/businesses/import" element={<RequireAdmin><ImportKmz /></RequireAdmin>} />
+                <Route path="/admin/businesses/:id/edit" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
+                <Route path="/admin/settings" element={<RequireAdmin><AdminSettings /></RequireAdmin>} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </SiteSettingsProvider>
       </AdminAuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
