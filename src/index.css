@@ -1,60 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* San Vicente Directory — Editorial design system
-   Ocean Blue primary, Sunset Orange accent. All HSL. */
+/* San Vicente Directory — 2026 redesign. Light-only, minimal, emerald accent. */
 
 @layer base {
   :root {
-    --background: 40 38% 97%;
-    --foreground: 210 40% 12%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 7%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 40% 12%;
+    --card-foreground: 0 0% 7%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 40% 12%;
+    --popover-foreground: 0 0% 7%;
 
-    --primary: 205 85% 32%;
-    --primary-foreground: 40 38% 97%;
-    --primary-glow: 198 90% 48%;
+    /* Emerald #10B981 */
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 160 84% 50%;
 
-    --secondary: 200 30% 94%;
-    --secondary-foreground: 210 40% 12%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 7%;
 
-    --muted: 200 25% 94%;
-    --muted-foreground: 210 15% 42%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 18 95% 58%;
+    --accent: 160 84% 39%;
     --accent-foreground: 0 0% 100%;
-    --accent-soft: 28 100% 95%;
+    --accent-soft: 160 60% 95%;
 
     --destructive: 0 75% 52%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 205 85% 32%;
+    /* #E5E5E5 */
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 160 84% 39%;
 
     --radius: 1rem;
 
-    /* Editorial tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(205 85% 22% / 0.85) 0%, hsl(198 80% 35% / 0.55) 50%, hsl(18 95% 58% / 0.45) 100%);
-    --gradient-ocean: linear-gradient(135deg, hsl(205 85% 32%) 0%, hsl(198 90% 48%) 100%);
-    --gradient-sunset: linear-gradient(135deg, hsl(18 95% 58%) 0%, hsl(35 100% 62%) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(40 38% 97%) 0%, hsl(200 30% 94%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(160 60% 97%) 100%);
+    --gradient-ocean: linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(160 84% 50%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(160 84% 50%) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
 
-    --shadow-soft: 0 1px 2px hsl(210 30% 15% / 0.04), 0 4px 16px hsl(210 30% 15% / 0.06);
-    --shadow-card: 0 2px 4px hsl(210 30% 15% / 0.04), 0 12px 32px hsl(210 30% 15% / 0.08);
-    --shadow-elegant: 0 8px 24px hsl(205 85% 32% / 0.15), 0 24px 48px hsl(205 85% 32% / 0.10);
-    --shadow-glow: 0 0 48px hsl(18 95% 58% / 0.35);
+    --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.04), 0 4px 16px hsl(0 0% 0% / 0.04);
+    --shadow-card: 0 2px 4px hsl(0 0% 0% / 0.04), 0 12px 32px hsl(0 0% 0% / 0.08);
+    --shadow-elegant: 0 8px 24px hsl(160 84% 39% / 0.12), 0 24px 48px hsl(0 0% 0% / 0.08);
+    --shadow-glow: 0 0 0 1px hsl(160 84% 39% / 0.3), 0 0 24px hsl(160 84% 39% / 0.18);
 
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 
-    --font-display: 'Fraunces', Georgia, serif;
+    --font-display: 'Inter', system-ui, sans-serif;
     --font-sans: 'Inter', system-ui, sans-serif;
 
     --sidebar-background: 0 0% 98%;
@@ -64,56 +64,6 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 210 40% 6%;
-    --foreground: 40 30% 95%;
-
-    --card: 210 35% 9%;
-    --card-foreground: 40 30% 95%;
-
-    --popover: 210 35% 9%;
-    --popover-foreground: 40 30% 95%;
-
-    --primary: 198 90% 55%;
-    --primary-foreground: 210 40% 6%;
-    --primary-glow: 198 90% 65%;
-
-    --secondary: 210 30% 14%;
-    --secondary-foreground: 40 30% 95%;
-
-    --muted: 210 30% 14%;
-    --muted-foreground: 210 18% 72%;
-
-    --accent: 18 95% 62%;
-    --accent-foreground: 210 40% 6%;
-    --accent-soft: 18 40% 18%;
-
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 40 30% 95%;
-
-    --border: 210 25% 18%;
-    --input: 210 25% 18%;
-    --ring: 198 90% 55%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(210 60% 8% / 0.92) 0%, hsl(198 70% 20% / 0.7) 50%, hsl(18 80% 40% / 0.55) 100%);
-    --gradient-ocean: linear-gradient(135deg, hsl(205 70% 25%) 0%, hsl(198 90% 55%) 100%);
-    --gradient-sunset: linear-gradient(135deg, hsl(18 95% 55%) 0%, hsl(35 95% 60%) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(210 40% 6%) 0%, hsl(210 35% 9%) 100%);
-
-    --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.3), 0 4px 16px hsl(0 0% 0% / 0.4);
-    --shadow-card: 0 2px 4px hsl(0 0% 0% / 0.3), 0 12px 32px hsl(0 0% 0% / 0.5);
-    --shadow-elegant: 0 8px 24px hsl(198 90% 30% / 0.25), 0 24px 48px hsl(0 0% 0% / 0.5);
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -136,7 +86,7 @@
 
   h1, h2, h3, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -151,6 +101,26 @@
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .transition-smooth { transition: all 0.3s var(--transition-smooth); }
   .text-balance { text-wrap: balance; }
+
+  /* Subtle grid background for hero */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(0 0% 0% / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(0 0% 0% / 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .bg-grid-fade {
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%);
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: hsl(0 0% 100% / 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid hsl(0 0% 100% / 0.6);
+  }
 }
 
 /* Constrain Leaflet's z-index stack so map panes/controls never overlap

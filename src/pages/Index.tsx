@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
-import hero from "@/assets/hero-sanvicente.jpg";
 import catResorts from "@/assets/cat-resorts.jpg";
 import catRestaurants from "@/assets/cat-restaurants.jpg";
 import catTours from "@/assets/cat-tours.jpg";
@@ -53,7 +52,7 @@ const Index = () => {
   const { settings } = useSiteSettings();
   const categoryImages = settings.category_images || {};
   const visible = businesses.filter((b) => b.isActive);
-  const featured = visible.filter((b) => b.isFeatured).slice(0, 6);
+  const featured = visible.filter((b) => b.isFeatured).slice(0, 8);
   const recent = [...visible].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 4);
   const totalListings = visible.length;
 
@@ -64,67 +63,60 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Hero — softer gradient surface */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={hero}
-            alt="Aerial view of Long Beach in San Vicente, Palawan at sunset"
-            width={1920}
-            height={1280}
-            className="h-full w-full object-cover opacity-40"
-          />
-          <div className="absolute inset-0 gradient-hero" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/30" />
-        </div>
+      {/* HERO — full width, subtle grid background */}
+      <section className="relative overflow-hidden bg-background">
+        <div className="absolute inset-0 gradient-hero" />
+        <div className="absolute inset-0 bg-grid bg-grid-fade" />
 
-        <div className="container relative px-4 py-16 md:py-24 lg:py-28">
+        <div className="container relative px-4 py-12 md:py-20 lg:py-[80px]">
           <div className="mx-auto max-w-3xl text-center">
             <HeroLogo />
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-white backdrop-blur-md">
-              <Sparkles className="h-3.5 w-3.5" />
-              Palawan, Philippines
-            </span>
-            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] text-white text-balance md:text-6xl lg:text-7xl">
-              Discover San Vicente,<br />
-              <span className="italic text-white/95">slowly.</span>
+
+            {/* Headline: 'San Vicente' 48px, 'slowly' 32px in #10B981 */}
+            <h1 className="font-bold leading-[1.05] tracking-tight text-foreground text-balance">
+              <span className="block text-[40px] md:text-[48px]">San Vicente,</span>
+              <span className="block text-[28px] md:text-[32px] text-primary italic font-semibold">
+                slowly.
+              </span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/90 md:text-lg">
+
+            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
               A locally curated directory of resorts, restaurants, tours, and hidden gems along Palawan's legendary 14-km Long Beach.
             </p>
 
-            <div className="mx-auto mt-8 max-w-2xl rounded-2xl bg-background/10 p-2 backdrop-blur-md md:p-3">
+            {/* Glass morphism search — full width mobile, 600px desktop */}
+            <div className="mx-auto mt-8 w-full max-w-[600px] rounded-2xl glass p-2 shadow-card md:p-3">
               <SearchBar variant="hero" />
             </div>
 
             {/* Stats */}
-            <dl className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-4 text-white">
+            <dl className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-4">
               <div>
-                <dt className="text-xs uppercase tracking-wider text-white/70">Listings</dt>
-                <dd className="font-display text-2xl font-bold md:text-3xl">{totalListings}+</dd>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Listings</dt>
+                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">{totalListings}+</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-wider text-white/70">Categories</dt>
-                <dd className="font-display text-2xl font-bold md:text-3xl">{CATEGORIES.length}</dd>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Categories</dt>
+                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">{CATEGORIES.length}</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-wider text-white/70">Long Beach</dt>
-                <dd className="font-display text-2xl font-bold md:text-3xl">14km</dd>
+                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Long Beach</dt>
+                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">14km</dd>
               </div>
             </dl>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section className="container px-4 py-16 md:py-24">
+      {/* CATEGORIES — 1/2/4 grid, 24px gap */}
+      <section className="container px-4 py-12 md:py-[80px]">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent">Browse</p>
-            <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Find what you need</h2>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Browse</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Find what you need</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURED_CATEGORY_ORDER
             .map((slug) => CATEGORIES.find((c) => c.slug === slug))
             .filter((c): c is NonNullable<typeof c> => !!c && (counts[c.slug] ?? 0) > 0)
@@ -140,13 +132,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured — horizontal carousel */}
-      <section className="border-y border-border/60 bg-secondary/30">
-        <div className="container px-4 py-16 md:py-24">
+      {/* FEATURED — horizontal carousel on mobile, grid on desktop */}
+      <section className="border-t border-border bg-secondary/30">
+        <div className="container px-4 py-12 md:py-[80px]">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-accent">Featured</p>
-              <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Featured listings</h2>
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured</p>
+              <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Featured listings</h2>
               <p className="mt-2 max-w-md text-muted-foreground">
                 Verified, top-rated places across San Vicente — handpicked by our local team.
               </p>
@@ -159,9 +151,9 @@ const Index = () => {
             </Link>
           </div>
 
-          {/* Snap-scroll rail */}
+          {/* Snap-scroll rail (mobile carousel; desktop shows multiple) */}
           <div className="-mx-4 px-4">
-            <div className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4">
+            <div className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
               {featured.map((b, i) => (
                 <div
                   key={b.id}
@@ -175,15 +167,15 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Recently added */}
-      <section className="container px-4 py-16 md:py-24">
+      {/* RECENTLY ADDED — 1/2/4 grid */}
+      <section className="container px-4 py-12 md:py-[80px]">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent">Fresh</p>
-            <h2 className="mt-2 font-display text-3xl font-bold text-balance md:text-4xl">Recently added</h2>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Fresh</p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-balance md:text-4xl">Recently added</h2>
           </div>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {recent.map((b) => (
             <BusinessCard key={b.id} business={b} />
           ))}
@@ -191,24 +183,24 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="container px-4 pb-20">
+      <section className="container px-4 pb-16 md:pb-[80px]">
         <div className="relative overflow-hidden rounded-3xl gradient-ocean p-8 text-primary-foreground shadow-elegant md:p-14">
           <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-3xl font-bold text-balance md:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-balance md:text-4xl">
               Own a business in San Vicente?
             </h2>
             <p className="mx-auto mt-3 max-w-lg text-primary-foreground/85">
               Get discovered by thousands of travelers. List your business for free and reach the right audience.
             </p>
             <Link
-              to="/search"
+              to="/list-your-business"
               className="mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-primary shadow-soft transition-smooth hover:scale-[1.02]"
             >
               List your business <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent/30 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-primary-glow/40 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
         </div>
       </section>
     </Layout>
