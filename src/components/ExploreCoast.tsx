@@ -124,12 +124,11 @@ export const ExploreCoast = ({ businesses }: Props) => {
 
     const bounds = L.latLngBounds([]);
     visible.forEach((b) => {
-      const color = CATEGORY_COLORS[b.category]?.hex ?? "#10B981";
-      const m = L.marker([b.latitude!, b.longitude!], { icon: pinIcon(color) });
+      const m = L.marker([b.latitude!, b.longitude!], { icon: glowMarkerIcon() });
       const popup = `
         <div style="min-width:200px">
-          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#111">${escapeHtml(b.name)}</p>
-          <p style="margin:0 0 8px 0;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:0.04em">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
+          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#fff">${escapeHtml(b.name)}</p>
+          <p style="margin:0 0 8px 0;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
           <button type="button" data-slug="${escapeHtml(b.slug)}" class="explore-popup-btn" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:32px;border-radius:9999px;background:#10B981;color:#fff;border:0;font-size:12px;font-weight:600;cursor:pointer">View Details</button>
         </div>`;
       m.bindPopup(popup);
