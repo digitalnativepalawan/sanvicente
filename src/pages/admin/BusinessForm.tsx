@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CATEGORIES } from "@/data/categories";
 import { businessStore, slugify } from "@/data/businessStore";
 import { useToast } from "@/hooks/use-toast";
+import { getBusinessImage } from "@/lib/business-image";
 import type { Business, Category, PriceRange } from "@/types/business";
 import resortDefault from "@/assets/biz-resort.jpg";
 
@@ -34,6 +35,7 @@ const empty: FormState = {
   services: [],
   amenities: [],
   image: resortDefault,
+  images: [],
   priceRange: "₱₱",
   openingHours: {
     mon: "8:00 AM – 9:00 PM", tue: "8:00 AM – 9:00 PM", wed: "8:00 AM – 9:00 PM",
@@ -92,7 +94,14 @@ const BusinessForm = () => {
       return;
     }
     const reader = new FileReader();
-    reader.onload = () => update("image", String(reader.result));
+    reader.onload = () => {
+      const nextImage = String(reader.result);
+      setForm((current) => ({
+        ...current,
+        image: nextImage,
+        images: [nextImage, ...(current.images ?? []).filter((img) => img && img !== nextImage)].slice(0, 8),
+      }));
+    };
     reader.readAsDataURL(file);
   };
 
@@ -100,7 +109,8 @@ const BusinessForm = () => {
     e.preventDefault();
     const services = servicesText.split(",").map((s) => s.trim()).filter(Boolean);
     const amenities = amenitiesText.split(",").map((s) => s.trim()).filter(Boolean);
-    const payload = { ...form, services, amenities, slug: form.slug || slugify(form.name) };
+    const normalizedImages = [form.image, ...(form.images ?? [])].filter((img, index, arr): img is string => !!img && arr.indexOf(img) === index).slice(0, 8);
+    const payload = { ...form, services, amenities, slug: form.slug || slugify(form.name), images: normalizedImages };
 
     if (!payload.name || !payload.barangay || !payload.address || !payload.shortDescription) {
       toast({ title: "Missing fields", description: "Name, address, barangay, and short description are required.", variant: "destructive" });
@@ -248,13 +258,13 @@ const BusinessForm = () => {
           <section className="rounded-3xl border border-border bg-card p-6 shadow-soft">
             <h2 className="font-display text-lg font-bold">Cover photo</h2>
             <div className="mt-3 overflow-hidden rounded-2xl border border-border bg-muted">
-              <img src={form.image} alt="Cover preview" className="aspect-[4/3] w-full object-cover" />
+              <img src={getBusinessImage(form)} alt="Cover preview" className="aspect-[4/3] w-full object-cover" />
             </div>
             <input ref={fileRef} type="file" accept="image/*" hidden onChange={onImage} />
             <Button type="button" variant="outline" className="mt-3 h-11 w-full rounded-2xl" onClick={() => fileRef.current?.click()}>
               <ImagePlus className="mr-1.5 h-4 w-4" />Upload photo
             </Button>
-            <p className="mt-2 text-xs text-muted-foreground">JPG/PNG up to 3 MB. Stored locally for now.</p>
+            <p className="mt-2 text-xs text-muted-foreground">JPG/PNG up to 3 MB. The uploaded cover photo is used throughout the site.</p>
           </section>
 
           <section className="rounded-3xl border border-border bg-card p-6 shadow-soft">

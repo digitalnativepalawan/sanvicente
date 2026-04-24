@@ -106,7 +106,7 @@ const BusinessProfile = () => {
   return (
     <Layout>
       {/* Hero image */}
-      <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden bg-muted md:h-[55vh]">
+      <section className="relative h-[34vh] min-h-[220px] w-full overflow-hidden bg-muted md:h-[48vh] md:min-h-[280px]">
         <img
           src={getBusinessImage(business)}
           alt={business.name}
@@ -120,7 +120,7 @@ const BusinessProfile = () => {
             img.src = fallbackImage;
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background via-background/75 to-transparent md:h-32" />
         <div className="container absolute inset-x-0 top-4 z-10 px-4">
           <Link
             to={`/category/${business.category}`}
@@ -131,9 +131,9 @@ const BusinessProfile = () => {
         </div>
       </section>
 
-      <div className="container px-4 pb-20">
+      <div className="container relative z-10 px-4 pb-20">
         {/* Title block */}
-        <div className="-mt-20 rounded-3xl border border-border bg-card p-6 shadow-card md:-mt-24 md:p-10">
+        <div className="-mt-10 rounded-3xl border border-border bg-card p-5 shadow-card md:-mt-16 md:p-10">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <Badge variant="secondary" className="rounded-full">{cat?.label}</Badge>
             {business.subcategory && <Badge variant="outline" className="rounded-full">{business.subcategory}</Badge>}

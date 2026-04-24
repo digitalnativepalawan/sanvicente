@@ -5,6 +5,7 @@ import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useBusinesses, analytics, businessStore, isCloudEnabled, setCloudEnabled } from "@/data/businessStore";
 import { toast } from "sonner";
+import { getBusinessImage } from "@/lib/business-image";
 
 const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Eye; label: string; value: string | number; accent?: boolean }) => (
   <div className="rounded-3xl border border-border bg-card p-5 shadow-soft">
@@ -158,7 +159,7 @@ const AdminDashboard = () => {
           <ul className="mt-4 divide-y divide-border">
             {top.map((b) => (
               <li key={b.id} className="flex items-center gap-3 py-3">
-                <img src={b.image} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" loading="lazy" />
+                <img src={getBusinessImage(b)} alt="" className="h-12 w-12 shrink-0 rounded-xl object-cover" loading="lazy" />
                 <div className="min-w-0 flex-1">
                   <Link to={`/admin/businesses/${b.id}/edit`} className="block truncate font-semibold hover:underline">
                     {b.name}

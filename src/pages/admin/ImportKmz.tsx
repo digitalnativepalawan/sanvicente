@@ -147,7 +147,7 @@ const ImportKmz = () => {
           services: [],
           amenities: [],
           image: r.images[0] || resortDefault,
-          images: r.images.length > 1 ? r.images.slice(0, 8) : undefined,
+          images: r.images.length ? r.images.slice(0, 8) : undefined,
           priceRange: defaultPriceRange(),
           openingHours: {
             mon: "8:00 AM – 9:00 PM", tue: "8:00 AM – 9:00 PM", wed: "8:00 AM – 9:00 PM",
