@@ -91,11 +91,10 @@ export const ExploreCoast = ({ businesses }: Props) => {
     });
     mapRef.current = map;
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      maxZoom: 20,
-      subdomains: "abcd",
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
     layerRef.current = L.layerGroup().addTo(map);
@@ -191,7 +190,7 @@ export const ExploreCoast = ({ businesses }: Props) => {
               </div>
             </div>
           )}
-          <div ref={elRef} className="h-full w-full" aria-label="Coast map" />
+          <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
         </div>
 
         {unmapped > 0 && (
