@@ -152,3 +152,17 @@
   .transition-smooth { transition: all 0.3s var(--transition-smooth); }
   .text-balance { text-wrap: balance; }
 }
+
+/* Constrain Leaflet's z-index stack so map panes/controls never overlap
+   the sticky header (z-50) or modals/dialogs/popovers. */
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom { z-index: 1 !important; }
+.leaflet-popup-pane { z-index: 7 !important; }
+.leaflet-tooltip-pane { z-index: 6 !important; }
+.leaflet-marker-pane { z-index: 6 !important; }
+.leaflet-overlay-pane { z-index: 4 !important; }
+.leaflet-shadow-pane { z-index: 5 !important; }
+.leaflet-tile-pane { z-index: 2 !important; }
+.leaflet-control { z-index: 8 !important; }
+.leaflet-container { z-index: 0; }
