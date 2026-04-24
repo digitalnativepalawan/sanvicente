@@ -17,6 +17,7 @@ import {
   Star,
   Flag,
 } from "lucide-react";
+import fallbackImage from "@/assets/biz-resort.jpg";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -105,16 +106,22 @@ const BusinessProfile = () => {
   return (
     <Layout>
       {/* Hero image */}
-      <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden md:h-[55vh]">
+      <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden bg-muted md:h-[55vh]">
         <img
           src={getBusinessImage(business)}
           alt={business.name}
           className="h-full w-full object-cover"
           width={1280}
           height={896}
+          onError={(event) => {
+            const img = event.currentTarget;
+            if (img.dataset.fallbackApplied === "true") return;
+            img.dataset.fallbackApplied = "true";
+            img.src = fallbackImage;
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-        <div className="container absolute inset-x-0 top-4 px-4">
+        <div className="container absolute inset-x-0 top-4 z-10 px-4">
           <Link
             to={`/category/${business.category}`}
             className="inline-flex items-center gap-1 rounded-full bg-background/85 px-3 py-1.5 text-sm font-medium backdrop-blur hover:bg-background"
