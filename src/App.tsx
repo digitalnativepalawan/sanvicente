@@ -11,10 +11,12 @@ import Category from "./pages/Category.tsx";
 import BusinessProfile from "./pages/BusinessProfile.tsx";
 import SearchPage from "./pages/Search.tsx";
 import MapView from "./pages/MapView.tsx";
+import ClaimBusiness from "./pages/ClaimBusiness.tsx";
 import AdminDashboard from "./pages/admin/Dashboard.tsx";
 import AdminBusinesses from "./pages/admin/Businesses.tsx";
 import BusinessForm from "./pages/admin/BusinessForm.tsx";
 import ImportKmz from "./pages/admin/ImportKmz.tsx";
+import AdminClaims from "./pages/admin/Claims.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -33,7 +35,9 @@ const App = () => (
               <Route path="/business/:slug" element={<BusinessProfile />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/map" element={<MapView />} />
+              <Route path="/business/:slug/claim" element={<ClaimBusiness />} />
               <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+              <Route path="/admin/claims" element={<RequireAdmin><AdminClaims /></RequireAdmin>} />
               <Route path="/admin/businesses" element={<RequireAdmin><AdminBusinesses /></RequireAdmin>} />
               <Route path="/admin/businesses/new" element={<RequireAdmin><BusinessForm /></RequireAdmin>} />
               <Route path="/admin/businesses/import" element={<RequireAdmin><ImportKmz /></RequireAdmin>} />
