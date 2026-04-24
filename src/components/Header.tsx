@@ -1,17 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Map as MapIcon, Menu, Plus, Search, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/data/categories";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const { settings } = useSiteSettings();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled || open
+          ? "border-b border-border/60 bg-white/70 backdrop-blur-xl shadow-soft"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div className="container flex h-20 items-center justify-between gap-4 px-4 md:h-24">
         <Link to="/" className="flex items-center" aria-label={`${settings.site_name} home`}>
           <img
