@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, ReactNode } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light";
 
 interface ThemeContextValue {
   theme: Theme;
@@ -10,30 +10,18 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const STORAGE_KEY = "sv-theme";
-
-const getInitial = (): Theme => {
-  if (typeof window === "undefined") return "light";
-  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-  if (stored === "light" || stored === "dark") return stored;
-  // Default to light mode for first-time visitors regardless of system preference.
-  return "light";
-};
-
+// Light-only mode for the 2026 redesign. Provider kept for API compatibility.
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setThemeState] = useState<Theme>(getInitial);
-
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-    localStorage.setItem(STORAGE_KEY, theme);
-  }, [theme]);
+    root.classList.remove("dark");
+    root.classList.add("light");
+  }, []);
 
   const value: ThemeContextValue = {
-    theme,
-    toggle: () => setThemeState((t) => (t === "light" ? "dark" : "light")),
-    setTheme: setThemeState,
+    theme: "light",
+    toggle: () => {},
+    setTheme: () => {},
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

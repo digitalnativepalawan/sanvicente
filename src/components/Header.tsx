@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Map as MapIcon, Menu, Plus, Search, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "./ThemeToggle";
 import { CATEGORIES } from "@/data/categories";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
@@ -68,7 +67,6 @@ export const Header = () => {
           >
             <Link to="/admin"><ShieldCheck className="h-5 w-5" /></Link>
           </Button>
-          <ThemeToggle />
           <Button
             variant="ghost"
             size="icon"
