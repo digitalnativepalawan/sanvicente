@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 import { Loader2 } from "lucide-react";
 import type { Business } from "@/types/business";
 import { CATEGORIES } from "@/data/categories";
-import { CATEGORY_COLORS } from "@/lib/category-colors";
 
 interface Props {
   businesses: Business[];
