@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Heart, MapPin, Star, BadgeCheck } from "lucide-react";
+import fallbackImage from "@/assets/biz-resort.jpg";
 import type { Business } from "@/types/business";
 import { useFavorites } from "@/hooks/use-favorites";
 import { Badge } from "@/components/ui/badge";

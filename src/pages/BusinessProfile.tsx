@@ -17,6 +17,7 @@ import {
   Star,
   Flag,
 } from "lucide-react";
+import fallbackImage from "@/assets/biz-resort.jpg";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
