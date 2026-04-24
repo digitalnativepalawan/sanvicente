@@ -5,12 +5,14 @@ import { Layout } from "@/components/Layout";
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
+import { ExploreCoast } from "@/components/ExploreCoast";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import catResorts from "@/assets/cat-resorts.jpg";
 import catRestaurants from "@/assets/cat-restaurants.jpg";
 import catTours from "@/assets/cat-tours.jpg";
 import catTransport from "@/assets/cat-transport.jpg";
+import heroImage from "@/assets/hero-san-vicente.jpg";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
 const FEATURED_CATEGORY_IMAGES: Record<string, string> = {
@@ -27,8 +29,8 @@ const HeroLogo = () => {
     <img
       src={settings.logo_url}
       alt={`${settings.site_name} logo`}
-      style={{ height: `${settings.logo_size_hero}px` }}
-      className="mx-auto mb-6 w-auto"
+      style={{ height: "80px" }}
+      className="mx-auto mb-6 w-auto drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]"
       loading="eager"
       decoding="async"
     />
@@ -63,45 +65,63 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* HERO — full width, subtle grid background */}
-      <section className="relative overflow-hidden bg-background">
-        <div className="absolute inset-0 gradient-hero" />
-        <div className="absolute inset-0 bg-grid bg-grid-fade" />
+      {/* HERO — full-bleed cinematic photo */}
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: "70vh" }}
+      >
+        <div className="absolute inset-0 md:min-h-[90vh]">
+          <img
+            src={heroImage}
+            alt="Long Beach San Vicente Palawan at sunset"
+            className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.65) 100%)",
+            }}
+          />
+        </div>
 
-        <div className="container relative px-4 py-12 md:py-20 lg:py-[80px]">
-          <div className="mx-auto max-w-3xl text-center">
+        <div className="relative flex min-h-[70vh] items-center justify-center md:min-h-[90vh]">
+          <div className="container px-4 py-16 text-center text-white md:py-24">
             <HeroLogo />
 
-            {/* Headline: 'San Vicente' 48px, 'slowly' 32px in #10B981 */}
-            <h1 className="font-bold leading-[1.05] tracking-tight text-foreground text-balance">
-              <span className="block text-[40px] md:text-[48px]">San Vicente,</span>
-              <span className="block text-[28px] md:text-[32px] text-primary italic font-semibold">
+            <h1 className="font-bold leading-[1.02] text-white text-balance [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
+              <span className="block text-[3.25rem] tracking-[-0.02em] md:text-[5rem]">
+                San Vicente
+              </span>
+              <span className="mt-1 block text-[1.5rem] italic font-semibold md:text-[2rem]" style={{ color: "#10B981" }}>
                 slowly.
               </span>
             </h1>
 
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mx-auto mt-5 max-w-[600px] text-base leading-relaxed text-white/85 md:text-[1.1rem]">
               A locally curated directory of resorts, restaurants, tours, and hidden gems along Palawan's legendary 14-km Long Beach.
             </p>
 
-            {/* Glass morphism search — full width mobile, 600px desktop */}
-            <div className="mx-auto mt-8 w-full max-w-[600px] rounded-2xl glass p-2 shadow-card md:p-3">
-              <SearchBar variant="hero" />
+            <div className="mx-auto mt-8 w-full max-w-[600px]">
+              <SearchBar variant="hero-dark" />
             </div>
 
-            {/* Stats */}
-            <dl className="mx-auto mt-10 grid max-w-lg grid-cols-3 gap-4">
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Listings</dt>
-                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">{totalListings}+</dd>
+            {/* Stats — white text, white/30 dividers */}
+            <dl className="mx-auto mt-10 flex max-w-2xl items-center justify-center divide-x divide-white/30">
+              <div className="flex-1 px-4">
+                <dd className="text-2xl font-bold text-white md:text-3xl">{totalListings}+</dd>
+                <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Listings</dt>
               </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Categories</dt>
-                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">{CATEGORIES.length}</dd>
+              <div className="flex-1 px-4">
+                <dd className="text-2xl font-bold text-white md:text-3xl">{CATEGORIES.length}</dd>
+                <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Categories</dt>
               </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Long Beach</dt>
-                <dd className="mt-1 text-2xl font-bold text-foreground md:text-3xl">14km</dd>
+              <div className="flex-1 px-4">
+                <dd className="text-2xl font-bold text-white md:text-3xl">14km</dd>
+                <dt className="mt-1 text-[11px] uppercase tracking-[0.18em] text-white/70">Long Beach</dt>
               </div>
             </dl>
           </div>
@@ -167,7 +187,10 @@ const Index = () => {
         </div>
       </section>
 
-      {/* RECENTLY ADDED — 1/2/4 grid */}
+      {/* EXPLORE THE COAST — interactive map */}
+      <ExploreCoast businesses={visible} />
+
+
       <section className="container px-4 py-12 md:py-[80px]">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
