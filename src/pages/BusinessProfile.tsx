@@ -184,6 +184,18 @@ const BusinessProfile = () => {
               {fav ? "Saved" : "Save"}
             </Button>
           </div>
+
+          {/* Claim CTA */}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-dashed border-border bg-secondary/40 px-4 py-3">
+            <p className="text-sm text-muted-foreground">
+              <strong className="text-foreground">Own this business?</strong> Claim your listing to keep details up to date.
+            </p>
+            <Button asChild size="sm" variant="outline" className="h-10 rounded-full">
+              <Link to={`/business/${business.slug}/claim`}>
+                <Flag className="mr-1.5 h-4 w-4" /> Claim this business
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {/* Body grid */}

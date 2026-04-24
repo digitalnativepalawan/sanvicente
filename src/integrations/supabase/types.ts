@@ -14,12 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      business_claims: {
+        Row: {
+          admin_notes: string | null
+          business_id: string | null
+          created_at: string | null
+          id: string
+          owner_email: string
+          owner_message: string | null
+          owner_name: string
+          owner_phone: string | null
+          proposed_data: Json
+          reviewed_at: string | null
+          status: string | null
+          updated_business_data: Json
+          wants_order_online: boolean | null
+          wants_transport: boolean | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id: string
+          owner_email: string
+          owner_message?: string | null
+          owner_name: string
+          owner_phone?: string | null
+          proposed_data?: Json
+          reviewed_at?: string | null
+          status?: string | null
+          updated_business_data: Json
+          wants_order_online?: boolean | null
+          wants_transport?: boolean | null
+        }
+        Update: {
+          admin_notes?: string | null
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          owner_email?: string
+          owner_message?: string | null
+          owner_name?: string
+          owner_phone?: string | null
+          proposed_data?: Json
+          reviewed_at?: string | null
+          status?: string | null
+          updated_business_data?: Json
+          wants_order_online?: boolean | null
+          wants_transport?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_claims_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses: {
         Row: {
           address: string
           amenities: Json
           barangay: string
           category: string
+          claimed_at: string | null
           created_at: string
           description: string
           email: string | null
@@ -30,6 +90,7 @@ export type Database = {
           images: Json
           instagram: string | null
           is_active: boolean
+          is_claimed: boolean
           is_featured: boolean
           is_verified: boolean
           latitude: number | null
@@ -54,6 +115,7 @@ export type Database = {
           amenities?: Json
           barangay?: string
           category: string
+          claimed_at?: string | null
           created_at?: string
           description?: string
           email?: string | null
@@ -64,6 +126,7 @@ export type Database = {
           images?: Json
           instagram?: string | null
           is_active?: boolean
+          is_claimed?: boolean
           is_featured?: boolean
           is_verified?: boolean
           latitude?: number | null
@@ -88,6 +151,7 @@ export type Database = {
           amenities?: Json
           barangay?: string
           category?: string
+          claimed_at?: string | null
           created_at?: string
           description?: string
           email?: string | null
@@ -98,6 +162,7 @@ export type Database = {
           images?: Json
           instagram?: string | null
           is_active?: boolean
+          is_claimed?: boolean
           is_featured?: boolean
           is_verified?: boolean
           latitude?: number | null
