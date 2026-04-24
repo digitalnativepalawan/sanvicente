@@ -223,20 +223,20 @@ const Index = () => {
       {/* EXPLORE THE COAST — interactive map */}
       <ExploreCoast businesses={visible} />
 
-      <section className="container relative overflow-hidden px-4 py-16 md:py-[100px]">
+      <section className="container relative overflow-hidden px-4 py-24 md:py-[120px]">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl will-change-transform"
           style={{ transform: `translate3d(0, ${scrollY * -0.04}px, 0)` }}
         />
-        <div className="mb-12 flex items-end justify-between gap-4">
+        <div className="mb-14 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Fresh</p>
             <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Recently added</h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {recent.map((b, i) => (
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+          {recent.slice(0, 3).map((b, i) => (
             <RevealCard key={b.id} delayMs={i * 80}>
               <BusinessCard business={b} />
             </RevealCard>
