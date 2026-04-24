@@ -190,7 +190,7 @@ export const ExploreCoast = ({ businesses }: Props) => {
               </div>
             </div>
           )}
-          <div ref={elRef} className="h-full w-full" aria-label="Coast map" />
+          <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
         </div>
 
         {unmapped > 0 && (
