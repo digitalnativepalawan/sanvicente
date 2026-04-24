@@ -14,7 +14,9 @@ let cloudReady = false;
 const listeners = new Set<() => void>();
 
 export const isCloudEnabled = () => {
-  try { return localStorage.getItem(CLOUD_FLAG_KEY) === "1"; } catch { return false; }
+  // Always use cloud — businesses live in Supabase. The flag is kept for
+  // backwards compatibility with the migration UI but is no longer required.
+  return true;
 };
 export const setCloudEnabled = (on: boolean) => {
   try { localStorage.setItem(CLOUD_FLAG_KEY, on ? "1" : "0"); } catch { /* ignore */ }
@@ -33,19 +35,16 @@ const load = (): Business[] => {
     if (raw) {
       let parsed = JSON.parse(raw) as Business[];
       if (localStorage.getItem(SEED_CLEAN_FLAG) !== "1") {
-        const before = parsed.length;
         parsed = stripSeed(parsed);
-        if (parsed.length !== before) {
-          localStorage.setItem(KEY, JSON.stringify(parsed));
-        }
+        localStorage.setItem(KEY, JSON.stringify(parsed));
         localStorage.setItem(SEED_CLEAN_FLAG, "1");
       }
       memoryStore = parsed;
       return memoryStore;
     }
   } catch { /* ignore */ }
-  memoryStore = [...SEED];
-  localStorage.setItem(KEY, JSON.stringify(memoryStore));
+  // No local cache yet — start empty; cloud hydration will populate it.
+  memoryStore = [];
   return memoryStore;
 };
 
@@ -145,8 +144,8 @@ export const hydrateFromCloud = async () => {
   }
 };
 
-// Fire and forget on module load
-if (typeof window !== "undefined" && isCloudEnabled()) {
+// Fire and forget on module load — always hydrate from cloud
+if (typeof window !== "undefined") {
   hydrateFromCloud();
 }
 
