@@ -183,12 +183,12 @@ const Index = () => {
           className="pointer-events-none absolute -right-32 top-0 h-[500px] w-[500px] rounded-full bg-primary/10 blur-3xl will-change-transform"
           style={{ transform: `translate3d(0, ${scrollY * -0.08}px, 0)` }}
         />
-        <div className="container px-4 py-16 md:py-[100px]">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+        <div className="container px-4 py-24 md:py-[120px]">
+          <div className="mb-14 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-primary">Featured</p>
               <h2 className="mt-2 text-4xl font-black tracking-tighter text-balance md:text-5xl">Featured listings</h2>
-              <p className="mt-3 max-w-md text-muted-foreground">
+              <p className="mt-3 max-w-md text-muted-foreground text-balance">
                 Verified, top-rated places across San Vicente — handpicked by our local team.
               </p>
             </div>
@@ -200,22 +200,23 @@ const Index = () => {
             </Link>
           </div>
 
-          {/* Bento grid — first item spans 2 cols on lg, rest span 1. Total 6 cells across 4 cols. */}
-          <div className="grid auto-rows-[1fr] grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.slice(0, 7).map((b, i) => {
-              // Featured items in positions 0 and 5 span 2 columns on lg
-              const span2 = i === 0 || i === 5;
-              return (
-                <RevealCard
-                  key={b.id}
-                  delayMs={i * 80}
-                  className={span2 ? "lg:col-span-2" : ""}
-                >
-                  <BusinessCard business={b} priority={i < 3} />
+          {/* Anchor: first card is a full-width 21:9 visual anchor */}
+          {featured[0] && (
+            <RevealCard className="mb-12">
+              <BusinessCard business={featured[0]} priority wide />
+            </RevealCard>
+          )}
+
+          {/* Remaining featured — 3-column grid with luxurious gap-12 */}
+          {featured.length > 1 && (
+            <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.slice(1, 7).map((b, i) => (
+                <RevealCard key={b.id} delayMs={i * 80}>
+                  <BusinessCard business={b} priority={i < 2} />
                 </RevealCard>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
