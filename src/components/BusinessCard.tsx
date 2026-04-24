@@ -27,6 +27,12 @@ export const BusinessCard = ({ business, priority }: Props) => {
           width={1280}
           height={896}
           className="h-full w-full object-cover transition-smooth duration-500 group-hover:scale-105"
+          onError={(event) => {
+            const img = event.currentTarget;
+            if (img.dataset.fallbackApplied === "true") return;
+            img.dataset.fallbackApplied = "true";
+            img.src = fallbackImage;
+          }}
         />
         {business.isFeatured && (
           <Badge className="absolute left-3 top-3 rounded-full border-0 gradient-sunset px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-foreground shadow-soft">
