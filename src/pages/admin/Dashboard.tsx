@@ -5,6 +5,7 @@ import { AdminLayout, AdminPageHeader } from "@/components/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { useBusinesses, analytics, businessStore, isCloudEnabled, setCloudEnabled } from "@/data/businessStore";
 import { toast } from "sonner";
+import { getBusinessImage } from "@/lib/business-image";
 
 const StatCard = ({ icon: Icon, label, value, accent }: { icon: typeof Eye; label: string; value: string | number; accent?: boolean }) => (
   <div className="rounded-3xl border border-border bg-card p-5 shadow-soft">

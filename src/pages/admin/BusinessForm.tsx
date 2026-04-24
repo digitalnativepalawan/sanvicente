@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CATEGORIES } from "@/data/categories";
 import { businessStore, slugify } from "@/data/businessStore";
 import { useToast } from "@/hooks/use-toast";
+import { getBusinessImage } from "@/lib/business-image";
 import type { Business, Category, PriceRange } from "@/types/business";
 import resortDefault from "@/assets/biz-resort.jpg";
 

@@ -13,6 +13,7 @@ import {
 import { businessStore, useBusinesses } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
 import { useToast } from "@/hooks/use-toast";
+import { getBusinessImage } from "@/lib/business-image";
 
 const AdminBusinesses = () => {
   const businesses = useBusinesses();
