@@ -46,6 +46,7 @@ const categoryLabel = (slug: string) =>
 
 const MapView = () => {
   const { theme } = useTheme();
+  const navigate = useNavigate();
   const mapElementRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
