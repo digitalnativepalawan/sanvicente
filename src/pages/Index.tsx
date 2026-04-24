@@ -232,25 +232,28 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA — Mesh gradient (Emerald · Teal · Deep Blue) */}
       <section className="container px-4 pb-20 md:pb-[100px]">
-        <div className="relative overflow-hidden rounded-[2rem] gradient-ocean p-8 text-primary-foreground shadow-elegant md:p-16">
+        <div className="relative isolate overflow-hidden rounded-[2.5rem] mesh-emerald p-10 text-white shadow-elegant md:p-20">
+          {/* Inner glass veil for depth */}
+          <div className="absolute inset-0 backdrop-blur-2xl" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.35)_100%)]" aria-hidden />
+
           <div className="relative z-10 mx-auto max-w-2xl text-center">
-            <h2 className="text-4xl font-black tracking-tighter text-balance md:text-5xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/70">For owners</p>
+            <h2 className="mt-3 font-display text-5xl font-black tracking-tighter text-balance md:text-6xl">
               Own a business in San Vicente?
             </h2>
-            <p className="mx-auto mt-4 max-w-lg text-primary-foreground/85">
+            <p className="mx-auto mt-5 max-w-lg text-white/85">
               Get discovered by thousands of travelers. List your business for free and reach the right audience.
             </p>
             <Link
               to="/list-your-business"
-              className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-7 font-semibold text-primary shadow-soft transition-smooth hover:scale-[1.02]"
+              className="mt-9 inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 font-semibold text-foreground ring-1 ring-white/50 shadow-[0_10px_40px_-8px_rgba(16,185,129,0.45),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_16px_50px_-8px_rgba(16,185,129,0.55),inset_0_1px_0_rgba(255,255,255,0.6)] active:scale-[0.98]"
             >
               List your business <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-white/15 blur-3xl" />
         </div>
       </section>
     </Layout>
