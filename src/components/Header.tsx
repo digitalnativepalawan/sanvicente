@@ -12,11 +12,14 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between gap-4 px-4 md:h-20">
-        <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold tracking-tight md:text-xl">
-          <span className="grid h-9 w-9 place-items-center rounded-full gradient-ocean text-primary-foreground shadow-soft">
-            SV
-          </span>
-          <span className="hidden sm:inline">San Vicente</span>
+        <Link to="/" className="flex items-center" aria-label="San Vicente Directory home">
+          <img
+            src="https://hqsbyagdsgfwjvkxmyzm.supabase.co/storage/v1/object/public/logo-sanvic/Untitled%20design.png"
+            alt="San Vicente Directory logo"
+            className="h-10 w-auto md:h-12 lg:h-14"
+            loading="eager"
+            decoding="async"
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
