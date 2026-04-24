@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -6,6 +6,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { FeaturedCategoryCard } from "@/components/FeaturedCategoryCard";
 import { BusinessCard } from "@/components/BusinessCard";
 import { ExploreCoast } from "@/components/ExploreCoast";
+import { RevealCard } from "@/components/RevealCard";
 import { CATEGORIES } from "@/data/categories";
 import { useBusinesses } from "@/data/businessStore";
 import catResorts from "@/assets/cat-resorts.jpg";
