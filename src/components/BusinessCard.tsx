@@ -22,21 +22,19 @@ export const BusinessCard = ({ business, priority }: Props) => {
   const hasRating = business.rating > 0;
 
   return (
-    <article
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-soft transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-primary/40 hover:shadow-elegant"
-    >
-      {/* 16:9 image */}
+    <article className="group relative flex h-full flex-col gap-4">
+      {/* Floating image — borderless, large radius, soft expanding shadow */}
       <Link
         to={`/business/${business.slug}`}
-        className="relative block aspect-video overflow-hidden bg-muted"
+        className="relative block aspect-[4/3] overflow-hidden rounded-[2.5rem] bg-muted shadow-float transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1 shadow-float-hover"
       >
         <img
           src={getBusinessImage(business)}
           alt={business.name}
           loading={priority ? "eager" : "lazy"}
           width={1280}
-          height={720}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          height={960}
+          className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           onError={(event) => {
             const img = event.currentTarget;
             if (img.dataset.fallbackApplied === "true") return;
@@ -45,19 +43,17 @@ export const BusinessCard = ({ business, priority }: Props) => {
           }}
         />
 
-        {/* Category badge — top left, colored to match map pins */}
         {catColor && (
           <span
-            className="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white shadow-soft"
-            style={{ backgroundColor: catColor.hex }}
+            className="absolute left-4 top-4 inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white shadow-soft backdrop-blur-sm"
+            style={{ backgroundColor: `${catColor.hex}E6` }}
           >
             {catColor.label}
           </span>
         )}
 
-        {/* Featured badge — top right (smaller, dark) */}
         {business.isFeatured && (
-          <span className="absolute right-14 top-3 inline-flex items-center gap-1 rounded-full bg-black/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur">
+          <span className="absolute right-16 top-4 inline-flex items-center gap-1 rounded-full bg-black/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-md">
             <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
             Featured
           </span>
@@ -70,13 +66,14 @@ export const BusinessCard = ({ business, priority }: Props) => {
             toggle(business.id);
           }}
           aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-background/90 backdrop-blur transition-smooth hover:bg-background"
+          className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/85 backdrop-blur-md ring-1 ring-white/60 transition-smooth hover:bg-white"
         >
           <Heart className={`h-4 w-4 ${fav ? "fill-primary text-primary" : "text-foreground"}`} />
         </button>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2.5 p-5">
+      {/* Text directly on the page background — no card shell */}
+      <div className="flex flex-1 flex-col gap-2 px-1">
         {/* Title + price row */}
         <div className="flex items-start justify-between gap-3">
           <Link

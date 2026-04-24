@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 import { Loader2 } from "lucide-react";
 import type { Business } from "@/types/business";
 import { CATEGORIES } from "@/data/categories";
-import { CATEGORY_COLORS } from "@/lib/category-colors";
 
 interface Props {
   businesses: Business[];
@@ -26,13 +25,13 @@ const escapeHtml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-const pinIcon = (color: string) =>
+const glowMarkerIcon = () =>
   L.divIcon({
     className: "explore-pin",
-    html: `<span style="display:block;width:22px;height:22px;border-radius:9999px;background:${color};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)"></span>`,
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
-    popupAnchor: [0, -12],
+    html: `<div class="explore-glow-marker"><span class="core"></span></div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
   });
 
 export const ExploreCoast = ({ businesses }: Props) => {
@@ -91,10 +90,12 @@ export const ExploreCoast = ({ businesses }: Props) => {
     });
     mapRef.current = map;
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    // CartoDB Dark Matter — free, no API key, tactical dark aesthetic
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
       maxZoom: 19,
+      subdomains: "abcd",
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     }).addTo(map);
 
     layerRef.current = L.layerGroup().addTo(map);
@@ -122,12 +123,11 @@ export const ExploreCoast = ({ businesses }: Props) => {
 
     const bounds = L.latLngBounds([]);
     visible.forEach((b) => {
-      const color = CATEGORY_COLORS[b.category]?.hex ?? "#10B981";
-      const m = L.marker([b.latitude!, b.longitude!], { icon: pinIcon(color) });
+      const m = L.marker([b.latitude!, b.longitude!], { icon: glowMarkerIcon() });
       const popup = `
         <div style="min-width:200px">
-          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#111">${escapeHtml(b.name)}</p>
-          <p style="margin:0 0 8px 0;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:0.04em">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
+          <p style="margin:0 0 4px 0;font-weight:600;font-size:14px;color:#fff">${escapeHtml(b.name)}</p>
+          <p style="margin:0 0 8px 0;font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.04em">${escapeHtml(CATEGORIES.find((c) => c.slug === b.category)?.label ?? b.category)}${b.rating > 0 ? ` · ★ ${b.rating.toFixed(1)}` : ""}</p>
           <button type="button" data-slug="${escapeHtml(b.slug)}" class="explore-popup-btn" style="display:inline-flex;align-items:center;justify-content:center;width:100%;height:32px;border-radius:9999px;background:#10B981;color:#fff;border:0;font-size:12px;font-weight:600;cursor:pointer">View Details</button>
         </div>`;
       m.bindPopup(popup);
@@ -151,18 +151,20 @@ export const ExploreCoast = ({ businesses }: Props) => {
   }, [visible, ready, navigate]);
 
   return (
-    <section className="bg-[#0F172A] text-white">
-      <div className="container px-4 py-12 md:py-20">
-        <div className="mb-6 max-w-2xl">
+    <section className="bg-[#0B1215] text-white">
+      <div className="container px-4 pt-16 md:pt-24">
+        <div className="mb-8 max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Explore</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl">Explore the Coast</h2>
-          <p className="mt-3 text-sm text-white/70 md:text-base">
+          <h2 className="mt-3 font-display text-5xl font-black tracking-tighter text-balance md:text-6xl">
+            Explore the Coast
+          </h2>
+          <p className="mt-4 text-sm text-white/70 md:text-base">
             {mapped.length} places along 14km of Long Beach. Click any pin to see details.
           </p>
         </div>
 
         {/* Filter chips */}
-        <div className="no-scrollbar -mx-4 mb-5 flex gap-2 overflow-x-auto px-4 pb-2">
+        <div className="no-scrollbar -mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-2">
           {FILTERS.map((f) => {
             const active = filter === f.slug;
             return (
@@ -181,24 +183,29 @@ export const ExploreCoast = ({ businesses }: Props) => {
             );
           })}
         </div>
+      </div>
 
-        <div className="relative h-[400px] overflow-hidden rounded-2xl border border-white/10 md:h-[500px]">
-          {!ready && (
-            <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0F172A]">
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
-              </div>
+      {/* Edge-to-edge map — no rounded corners, no border */}
+      <div className="relative h-[420px] w-full md:h-[560px]">
+        {!ready && (
+          <div className="absolute inset-0 z-[1] grid place-items-center bg-[#0B1215]">
+            <div className="flex items-center gap-2 text-sm text-white/70">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
             </div>
-          )}
-          <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
-        </div>
+          </div>
+        )}
+        <div ref={elRef} className="explore-coast-map h-full w-full" aria-label="Coast map" />
+      </div>
 
-        {unmapped > 0 && (
-          <p className="mt-3 text-xs text-white/60">
+      {unmapped > 0 ? (
+        <div className="container px-4 pb-16 pt-4 md:pb-24">
+          <p className="text-xs text-white/60">
             {unmapped} listing{unmapped === 1 ? "" : "s"} not yet mapped — add coordinates in listing settings.
           </p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="pb-16 md:pb-24" />
+      )}
     </section>
   );
 };

@@ -15,7 +15,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Times New Roman', 'Georgia', 'serif'],
+        serif: ['Fraunces', 'Times New Roman', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -48,6 +49,10 @@ export default {
         sand: {
           DEFAULT: "hsl(var(--sand))",
           foreground: "hsl(var(--sand-foreground))",
+        },
+        midnight: {
+          DEFAULT: "hsl(var(--midnight))",
+          foreground: "hsl(var(--midnight-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
