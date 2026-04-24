@@ -222,7 +222,12 @@ const Index = () => {
       {/* EXPLORE THE COAST — interactive map */}
       <ExploreCoast businesses={visible} />
 
-      <section className="container px-4 py-16 md:py-[100px]">
+      <section className="container relative overflow-hidden px-4 py-16 md:py-[100px]">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-primary/10 blur-3xl will-change-transform"
+          style={{ transform: `translate3d(0, ${scrollY * -0.04}px, 0)` }}
+        />
         <div className="mb-12 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary">Fresh</p>
