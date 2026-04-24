@@ -25,6 +25,7 @@ import { useFavorites } from "@/hooks/use-favorites";
 import { useToast } from "@/hooks/use-toast";
 import { useBusinesses, useBusinessBySlug, analytics } from "@/data/businessStore";
 import { CATEGORIES } from "@/data/categories";
+import { getBusinessImage } from "@/lib/business-image";
 
 const dayLabels: Record<string, string> = {
   mon: "Monday",
@@ -106,7 +107,7 @@ const BusinessProfile = () => {
       {/* Hero image */}
       <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden md:h-[55vh]">
         <img
-          src={business.image}
+          src={getBusinessImage(business)}
           alt={business.name}
           className="h-full w-full object-cover"
           width={1280}
