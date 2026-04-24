@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Map as MapIcon, Menu, Search, ShieldCheck, X } from "lucide-react";
+import { Map as MapIcon, Menu, Plus, Search, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
