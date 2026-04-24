@@ -210,7 +210,11 @@ const BusinessProfile = () => {
           <div className="space-y-10">
             <section>
               <h2 className="font-display text-2xl font-bold">About</h2>
-              <p className="mt-3 leading-relaxed text-muted-foreground">{business.description}</p>
+              <div className="mt-3 space-y-3 leading-relaxed text-muted-foreground">
+                {business.description.split(/\n\s*\n/).map((para, i) => (
+                  <p key={i} className="whitespace-pre-line">{para.trim()}</p>
+                ))}
+              </div>
             </section>
 
             {business.services.length > 0 && (
