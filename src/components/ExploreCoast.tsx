@@ -26,13 +26,13 @@ const escapeHtml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 
-const pinIcon = (color: string) =>
+const glowMarkerIcon = () =>
   L.divIcon({
     className: "explore-pin",
-    html: `<span style="display:block;width:22px;height:22px;border-radius:9999px;background:${color};border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.45)"></span>`,
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
-    popupAnchor: [0, -12],
+    html: `<div class="explore-glow-marker"><span class="core"></span></div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
   });
 
 export const ExploreCoast = ({ businesses }: Props) => {
