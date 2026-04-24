@@ -43,20 +43,32 @@ export const Header = () => {
             <Link
               key={c.slug}
               to={`/category/${c.slug}`}
-              className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-smooth hover:bg-secondary hover:text-foreground"
+              className={`rounded-full px-3 py-2 text-sm font-medium transition-smooth ${
+                scrolled
+                  ? "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  : "text-white/90 hover:bg-white/15 hover:text-white"
+              }`}
             >
               {c.label}
             </Link>
           ))}
           <Link
             to="/map"
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-smooth hover:bg-secondary hover:text-foreground"
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-smooth ${
+              scrolled
+                ? "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                : "text-white/90 hover:bg-white/15 hover:text-white"
+            }`}
           >
             <MapIcon className="h-4 w-4" /> Map
           </Link>
           <Link
             to="/list-your-business"
-            className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-2 text-sm font-semibold text-background transition-smooth hover:opacity-90"
+            className={`ml-2 inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-smooth ${
+              scrolled
+                ? "bg-foreground text-background hover:opacity-90"
+                : "bg-white text-foreground hover:bg-white/90"
+            }`}
           >
             <Plus className="h-4 w-4" /> List business
           </Link>
@@ -68,7 +80,7 @@ export const Header = () => {
             size="icon"
             onClick={() => navigate("/search")}
             aria-label="Search"
-            className="h-11 w-11 rounded-full"
+            className={`h-11 w-11 rounded-full ${scrolled ? "" : "text-white hover:bg-white/15 hover:text-white"}`}
           >
             <Search className="h-5 w-5" />
           </Button>
@@ -77,18 +89,18 @@ export const Header = () => {
             variant="ghost"
             size="icon"
             aria-label="Admin"
-            className="hidden h-11 w-11 rounded-full sm:inline-flex"
+            className={`hidden h-11 w-11 rounded-full sm:inline-flex ${scrolled ? "" : "text-white hover:bg-white/15 hover:text-white"}`}
           >
             <Link to="/admin"><ShieldCheck className="h-5 w-5" /></Link>
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11 rounded-full md:hidden"
+            className={`h-11 w-11 rounded-full md:hidden ${scrolled ? "" : "text-white hover:bg-white/15 hover:text-white"}`}
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"
           >
-            {open ? <Menu className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <Menu className="h-5 w-5" />
           </Button>
         </div>
       </div>
